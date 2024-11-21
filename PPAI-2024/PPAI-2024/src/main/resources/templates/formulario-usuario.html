@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Usuario</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+
+<body>
+
+<div class="hero">
+    <div class="fila flex-center">
+        <div class="caja-barra-busqueda-card">
+
+            <!-- Formulario para agregar un nuevo usuario -->
+            <div th:if="${modo eq 'nuevo'}">
+                <form th:action="@{/usuarios/guardar}" th:object="${usuario}" method="POST">
+                    <div class="fila flex-column-center">
+                        <h2>Agregar Usuario</h2>
+
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="m-t-small">
+                            <label>Nombre</label>
+                            <input class="buscador-card" type="text" th:field="*{nombre}" required />
+                            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Premium</label>
+                            <input class="buscador-card" type="checkbox" th:field="*{premium}" />
+                        </div>
+
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-editar-card m-t-small" value="Guardar" />
+                            <a class="btn-eliminar m-l" th:href="@{/usuarios}">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Formulario para editar un usuario existente -->
+            <div th:if="${modo eq 'editar'}">
+                <form th:action="@{/usuarios/actualizar}" th:object="${usuario}" method="POST">
+                    <div class="fila flex-column-center">
+                        <h2>Editar Usuario</h2>
+
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="m-t-small">
+                            <label>Nombre</label>
+                            <input class="buscador-card" type="text" th:field="*{nombre}" required />
+                            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Premium</label>
+                            <input class="buscador-card" type="checkbox" th:field="*{premium}" />
+                        </div>
+
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-editar-card" value="Actualizar" />
+                            <a class="btn-eliminar m-l" th:href="@{/usuarios}">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
