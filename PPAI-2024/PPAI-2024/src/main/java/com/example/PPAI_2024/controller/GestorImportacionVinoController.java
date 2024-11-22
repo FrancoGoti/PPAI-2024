@@ -1,9 +1,13 @@
 package com.example.PPAI_2024.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.PPAI_2024.entity.Vino;
+import com.example.PPAI_2024.service.GestorImportacionVinoService;
 import java.util.Date;
 import java.util.List;
+import com.example.PPAI_2024.repository.VinoRepository;
 
 @RestController
 @RequestMapping("/api/gestor")
@@ -11,6 +15,9 @@ public class GestorImportacionVinoController {
 
     @Autowired
     private GestorImportacionVinoService gestorService;
+
+    @Autowired
+    private VinoRepository vinoRepository;
 
     public GestorImportacionVinoController(GestorImportacionVinoService gestorService) {
         this.gestorService = gestorService;
@@ -40,5 +47,9 @@ public class GestorImportacionVinoController {
     public void tomarSelBodega(@RequestParam String bodegaSeleccionada) {
         gestorService.tomarSelBodega(bodegaSeleccionada);
     }
+
+    
+     public List<Vino> obtenerResumenVinosActualizados(Long bodegaId) {
+        return vinoRepository.findVinosByBodegaId(bodegaId);
 
 }

@@ -3,6 +3,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.PPAI_2024.entity.Bodega;
 import com.example.PPAI_2024.entity.Enofilo;
+import com.example.PPAI_2024.entity.Vino;
 import com.example.PPAI_2024.repository.BodegaRepository;
 import com.example.PPAI_2024.repository.EnofiloRepository;
 import com.example.PPAI_2024.repository.VinoRepository;
@@ -67,15 +68,13 @@ public class GestorImportacionVinoService {
     /**
      * Setear la bodega seleccionada (caso de uso futuro).
      */
-    public void tomarSelBodega(String bodegaSeleccionada) {
+    public void tomarSelBodega(Long bodegaSeleccionada) {
         // Lógica de selección podría ser almacenada o procesada aquí
         System.out.println("Bodega seleccionada: " + bodegaSeleccionada);
     }
 
-    /**
-     * Buscar la fecha actual.
-     */
-    public Date buscarFechaActual() {
-        return new Date();
+    // MOSTRAR LOS VINOS DE LA BODEGA SELECCIONADA ACTUALIZADOS
+     public List<Vino> obtenerResumenVinosActualizados(Long bodegaId) {
+        return vinoRepository.findVinosByBodegaId(bodegaId);
     }
 }
