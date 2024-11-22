@@ -1,6 +1,7 @@
 package com.example.PPAI_2024.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,11 +22,11 @@ public class PantallaImportarVinos {
     }
 
     // Método para mostrar la pantalla principal
-    // @GetMapping
-    // public String mostrarPantalla(Model model) {
-    //     model.addAttribute("bodegas", gestor.buscarBodegasActDisponible());
-    //     return "pantalla-importar-vinos"; // Nombre del archivo HTML
-    // }
+    @GetMapping
+    public String mostrarPantalla(Model model) {
+        model.addAttribute("bodegas", gestor.buscarBodegasActDisponible());
+        return "pantalla-importar-vinos"; // Nombre del archivo HTML
+    }
 
     // Método para seleccionar bodega
     @PostMapping("/seleccionar-bodega")
@@ -35,12 +36,12 @@ public class PantallaImportarVinos {
         return "resumen-vinos"; // Página HTML con el resumen
     }
 
-    // // Método para importar actualizaciones
-    // @PostMapping("/importar")
-    // public String importarActualizaciones(@RequestParam("bodegaId") Long bodegaId, Model model) {
-    //     gestor.actualizarVinosBodega(bodegaId, null);
-    //     return "redirect:/pantalla-importar-vinos";
-    // }
+    // Método para importar actualizaciones
+    @PostMapping("/importar")
+    public String importarActualizaciones(@RequestParam("bodegaId") Long bodegaId, Model model) {
+        gestor.actualizarVinosBodega(bodegaId, null);
+        return "redirect:/pantalla-importar-vinos";
+    }
 
 }
 

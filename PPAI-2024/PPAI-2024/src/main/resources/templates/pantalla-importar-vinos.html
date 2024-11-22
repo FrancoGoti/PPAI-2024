@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Usuarios</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+<header>
+    <nav>
+        <a th:href="@{/}">Inicio</a>
+        <a th:href="@{/usuarios}">Usuarios</a>
+        <a th:href="@{/pantalla-importar-vinos}" class="activo">Importar</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <div class="fila flex-center">
+        <h2>Sistema BonVino - Importar Actualizaciones Vino de Bodega CU - 5</h2>
+    </div>
+
+    <div class="fila flex-center">
+        <a th:href="@{/pantalla-importar-vinos/importar}" class="btn-agregar">Importar</a>
+    </div>
+
+    <div class="fila flex-column-center">
+        <div class="caja-barra-busqueda">
+            <form class="flex-center" role="search" th:action="@{/seleccionar-bodega}" th:object="${bodega}" method="get">
+                <div>
+                    <select name="Bodega" aria-label="Default select example">
+                        <option selected value=":-1">Bodegas</option>
+                        <option th:each="bodega : ${bodega}" th:value="${bodega.id}" th:text="${bodega.nombre}" th:selected="${bodega.id == id}"></option>
+                    </select>
+                </div>
+                <div>
+                    <a class="btn-agregar m-l">Seleccionar</a>
+                </div>
+            </form>            
+        </div>
+    </div>
+
+    <div class="fila flex-center">
+        <div class="caja-tablas">
+            <table>
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Añada</th>
+                    <th>Precio</th>
+                    <th>NotaDeCata</th>
+                    <th>Fecha Actualizacion</th>
+                    <th>Maridaje</th>
+                    <th>Varietal</th>
+                    <th>TipoUva</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="vino : ${vino}">
+                    <td th:text="$vino.id">ID</td>
+                    <td th:text="${vino.añada}">Añada</td>
+                    <td th:text="${vino.precio}">Precio</td>
+                    <td th:text="${vino.notaDeCataBodega}">NotaDeCata</td>
+                    <td th:text="${vino.fechaActualizacion}">Fecha Actualizacion</td>
+                    <td th:text="${vino.maridaje}">Maridaje</td>
+                    <td th:text="${vino.varietal}">Varietal</td>
+                    <!-- <td th:text="${vino.tipoUva}">TipoUva</td>  -->
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
