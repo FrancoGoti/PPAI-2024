@@ -1,6 +1,8 @@
 package com.example.PPAI_2024.entity;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -114,5 +116,10 @@ public class Bodega {
     @Override
     public String toString() {
         return nombre;
+    }
+
+    public Object tieneActualizacionDisponible(LocalDate localDate, LocalDate localDate2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'tieneActualizacionDisponible'");
     }
 }
