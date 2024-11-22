@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Usuarios</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+<header>
+    <nav>
+        <a th:href="@{/}">Inicio</a>
+        <a th:href="@{/usuarios}" class="activo">Usuarios</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <div class="fila flex-center">
+        <h2>Listado de Usuarios</h2>
+    </div>
+
+    <div class="fila flex-center">
+        <a th:href="@{/usuarios/nuevo}" class="btn-agregar">Agregar Usuario</a>
+    </div>
+
+    <div class="fila flex-center">
+        <div class="caja-tablas">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Premium</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="usuario : ${usuarios}">
+                    <td th:text="${usuario.id}">ID</td>
+                    <td th:text="${usuario.nombre}">Nombre</td>
+                    <td th:text="${usuario.premium ? 'Sí' : 'No'}">Premium</td>
+                    <td>
+                        <a th:href="@{/usuarios/editar/{id}(id=${usuario.id})}" class="btn-editar">Editar</a>
+                        <a th:href="@{/usuarios/eliminar/{id}(id=${usuario.id})}" class="btn-eliminar">Eliminar</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
