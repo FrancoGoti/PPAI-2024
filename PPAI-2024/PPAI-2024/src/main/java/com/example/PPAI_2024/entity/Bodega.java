@@ -2,13 +2,14 @@ package com.example.PPAI_2024.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Bodega {
+public class Bodega implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,28 +17,26 @@ public class Bodega {
 
     private String nombre;
 
-    @Column(length = 500)
     private String historia;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaActualizacion;
-
+    
+    private LocalDate fechaActualizacion;
+    
     private int periodoActualizacion;
 
     private String coordenadas;
 
-    @Column(length = 1000)
     private String descripcion;
-
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bodega", orphanRemoval = true)
     private List<Vino> vinosBodega = new ArrayList<>();
+    // @OneToMany(mappedBy = "bodega", orphanRemoval = true)
 
     // Constructor vacío requerido por JPA
     public Bodega() {
     }
 
     // Constructor completo
-    public Bodega(String nombre, String historia, Date fechaActualizacion, int periodoActualizacion, 
+    public Bodega(String nombre, String historia, LocalDate fechaActualizacion, int periodoActualizacion, 
                   String coordenadas, String descripcion, List<Vino> vinosBodega) {
         this.nombre = nombre;
         this.historia = historia;
@@ -73,11 +72,11 @@ public class Bodega {
         this.historia = historia;
     }
 
-    public Date getFechaActualizacion() {
+    public LocalDate getFechaActualizacion() {
         return fechaActualizacion;
     }
 
-    public void setFechaActualizacion(Date fechaActualizacion) {
+    public void setFechaActualizacion(LocalDate fechaActualizacion) {
         this.fechaActualizacion = fechaActualizacion;
     }
 
@@ -118,8 +117,13 @@ public class Bodega {
         return nombre;
     }
 
-    public Object tieneActualizacionDisponible(LocalDate localDate, LocalDate localDate2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'tieneActualizacionDisponible'");
+    public boolean tieneActualizacionDisponible(LocalDate fechaActualizacion, LocalDate fechaActual) {
+         long diferenciaFechas = ChronoUnit.MONTHS.between(fechaActualizacion, fechaActual);
+        if (diferenciaFechas > periodoActualizacion){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

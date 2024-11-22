@@ -5,11 +5,8 @@ import com.example.PPAI_2024.entity.Vino;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.PPAI_2024.service.VinoService;
-
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,7 +26,7 @@ public class BodegaService {
     /**
      * Actualiza los datos de los vinos de la bodega.
      */
-    public void actualizarDatosVinosBodega(Bodega bodega, Date fechaActual, List<Vino> actualizacionesDeBodega) {
+    public void actualizarDatosVinosBodega(Bodega bodega, LocalDate fechaActual, List<Vino> actualizacionesDeBodega) {
     bodega.setFechaActualizacion(fechaActual);
 
     for (Vino actualizacion : actualizacionesDeBodega) {

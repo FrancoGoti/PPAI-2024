@@ -4,8 +4,8 @@ import com.example.PPAI_2024.entity.Maridaje;
 import com.example.PPAI_2024.entity.Varietal;
 import com.example.PPAI_2024.entity.Vino;
 import org.springframework.stereotype.Service;
+import java.time.LocalDate;
 
-import java.util.Date;
 
 @Service
 public class VinoService {
@@ -13,7 +13,7 @@ public class VinoService {
     /**
      * Actualiza los datos de un vino.
      */
-    public void actualizarDatos(Vino vino, int añada, Date fechaActualizacion, String nombre, float precio,
+    public void actualizarDatos(Vino vino, int añada, LocalDate fechaActualizacion, String nombre, float precio,
                                 String notaDeCataBodega, Maridaje maridaje, Varietal varietal) {
         vino.setAñada(añada);
         vino.setFechaActualizacion(fechaActualizacion);

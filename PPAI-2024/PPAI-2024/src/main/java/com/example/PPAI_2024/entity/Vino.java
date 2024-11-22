@@ -1,8 +1,10 @@
 package com.example.PPAI_2024.entity;
 
 import jakarta.persistence.*;
-import java.util.Date;
+
+import java.time.LocalDate;
 import java.util.Objects;
+
 
 @Entity
 public class Vino {
@@ -13,8 +15,8 @@ public class Vino {
 
     private int añada;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaActualizacion;
+    
+    private LocalDate fechaActualizacion;
 
     private String nombre;
 
@@ -40,7 +42,7 @@ public class Vino {
     }
 
     // Constructor completo
-    public Vino(int añada, Date fechaActualizacion, String nombre, String notaDeCataBodega, float precio, Maridaje maridaje, Varietal varietal) {
+    public Vino(int añada, LocalDate fechaActualizacion, String nombre, String notaDeCataBodega, float precio, Maridaje maridaje, Varietal varietal) {
         this.añada = añada;
         this.fechaActualizacion = fechaActualizacion;
         this.nombre = nombre;
@@ -67,11 +69,11 @@ public class Vino {
         this.añada = añada;
     }
 
-    public Date getFechaActualizacion() {
+    public LocalDate getFechaActualizacion() {
         return fechaActualizacion;
     }
 
-    public void setFechaActualizacion(Date fechaActualizacion) {
+    public void setFechaActualizacion(LocalDate fechaActualizacion) {
         this.fechaActualizacion = fechaActualizacion;
     }
 

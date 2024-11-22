@@ -3,11 +3,10 @@ package com.example.PPAI_2024.controller;
 import com.example.PPAI_2024.entity.Maridaje;
 import com.example.PPAI_2024.entity.Varietal;
 import com.example.PPAI_2024.entity.Vino;
-import com.example.PPAI_2024.service.VarietalService;
 import com.example.PPAI_2024.service.VinoService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/vinos")
@@ -23,7 +22,7 @@ public class VinoController {
     public void actualizarVino(
             @PathVariable Long id,
             @RequestParam int añada,
-            @RequestParam Date fechaActualizacion,
+            @RequestParam LocalDate fechaActualizacion,
             @RequestParam String nombre,
             @RequestParam float precio,
             @RequestParam String notaDeCataBodega,

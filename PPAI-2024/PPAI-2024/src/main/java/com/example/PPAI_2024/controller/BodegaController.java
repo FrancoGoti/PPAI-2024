@@ -6,7 +6,6 @@ import com.example.PPAI_2024.service.BodegaService;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -32,7 +31,7 @@ public class BodegaController {
     @PostMapping("/{id}/actualizar-vinos")
     public void actualizarVinos(
             @PathVariable Long id,
-            @RequestParam Date fechaActual,
+            @RequestParam LocalDate fechaActual,
             @RequestBody List<Vino> actualizacionesDeBodega) {
         // Aquí deberías obtener la bodega desde el repositorio (omitido por simplicidad)
         Bodega bodega = obtenerBodegaPorId(id);
