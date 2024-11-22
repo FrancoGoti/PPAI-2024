@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Varietales</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+<header>
+    <nav>
+        <a th:href="@{/}">Inicio</a>
+        <a th:href="@{/pantalla-importar-vinos}">Importar</a>
+        <a th:href="@{/usuarios}">Usuarios</a>
+        <a th:href="@{/vinos}">Vino</a>
+        <a th:href="@{/#}">Bodega</a>
+        <a th:href="@{/#}">Enofilo</a>
+        <a th:href="@{/#}">Maridaje</a>
+        <a th:href="@{/tipo-uvas}">Tipos de Uva</a>
+        <a th:href="@{/#}" class="activo">Varietal</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <div class="fila flex-center">
+        <h2>Listado de Varietales</h2>
+    </div>
+
+    <div class="fila flex-center">
+        <a th:href="@{/varietal/nuevo}" class="btn-agregar">Agregar Varietal</a>
+    </div>
+
+    <div class="fila flex-center">
+        <div class="caja-tablas">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tipo de Uva</th>
+                    <th>Descripción</th>
+                    <th>Porcentaje de Composición</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="varietal : ${varietal}">
+                    <td th:text="${varietal.id}">ID</td>
+                    <td th:text="${varietal.tipoUva.nombre}">Tipo de Uva</td>
+                    <td th:text="${varietal.descripcion}">Descripción</td>
+                    <td th:text="${varietal.porcentajeComposicion} + '%'">Porcentaje</td>
+                    <td>
+                        <a th:href="@{/varietal/editar/{id}(id=${varietal.id})}" class="btn-editar">Editar</a>
+                        <a th:href="@{/varietal/eliminar/{id}(id=${varietal.id})}" class="btn-eliminar">Eliminar</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
