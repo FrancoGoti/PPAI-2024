@@ -2,63 +2,73 @@ package com.example.PPAI_2024.controller;
 
 import com.example.PPAI_2024.entity.Maridaje;
 import com.example.PPAI_2024.service.MaridajeService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
-@RestController
-@RequestMapping("/api/maridajes")
+@Controller
+@RequestMapping("/maridajes")
 public class MaridajeController {
 
-    private final MaridajeService maridajeService;
+    @Autowired
+    private MaridajeService maridajeService;
 
-    public MaridajeController(MaridajeService maridajeService) {
-        this.maridajeService = maridajeService;
-    }
-
-    // Obtener todos los maridajes
+    // Listar todos los maridajes
     @GetMapping
-    public List<Maridaje> getAllMaridajes() {
-        return maridajeService.getAllMaridajes();
+    public String listarMaridajes(Model model) {
+        var maridajes = maridajeService.getAllMaridajes();
+        model.addAttribute("maridajes", maridajes);
+        return "maridajes"; // Nombre de la vista HTML para listar
     }
 
-    // Obtener un maridaje por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Maridaje> getMaridajeById(@PathVariable Long id) {
-        Optional<Maridaje> maridaje = maridajeService.getMaridajeById(id);
-        return maridaje.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    // Mostrar formulario para agregar un nuevo maridaje
+    @GetMapping("/nuevo")
+    public String agregarMaridaje(Model model) {
+        model.addAttribute("maridaje", new Maridaje());
+        model.addAttribute("modo", "nuevo");
+        return "formulario-maridaje"; // Nombre de la vista HTML para el formulario
     }
 
-    // Crear un nuevo maridaje
-    @PostMapping
-    public Maridaje createMaridaje(@RequestBody Maridaje maridaje) {
-        return maridajeService.saveMaridaje(maridaje);
-    }
-
-    // Actualizar un maridaje existente
-    @PutMapping("/{id}")
-    public ResponseEntity<Maridaje> updateMaridaje(@PathVariable Long id, @RequestBody Maridaje maridajeDetails) {
-        Optional<Maridaje> existingMaridaje = maridajeService.getMaridajeById(id);
-        if (existingMaridaje.isPresent()) {
-            Maridaje updatedMaridaje = existingMaridaje.get();
-            updatedMaridaje.setNombre(maridajeDetails.getNombre());
-            updatedMaridaje.setDescripcion(maridajeDetails.getDescripcion());
-            return ResponseEntity.ok(maridajeService.saveMaridaje(updatedMaridaje));
-        } else {
-            return ResponseEntity.notFound().build();
+    // Guardar un nuevo maridaje
+    @PostMapping("/guardar")
+    public String guardarMaridaje( Maridaje maridaje, BindingResult error, Model model) {
+        if (error.hasErrors()) {
+            model.addAttribute("modo", "nuevo");
+            return "formulario-maridaje";
         }
+        maridajeService.saveMaridaje(maridaje);
+        return "redirect:/maridajes";
+    }
+
+    // Mostrar formulario para editar un maridaje existente
+    @GetMapping("/editar/{id}")
+    public String editarFormulario(@PathVariable Long id, Model model) {
+        var maridaje = maridajeService.getMaridajeById(id).orElse(null);
+        if (maridaje == null) {
+            return "redirect:/maridajes";
+        }
+        model.addAttribute("maridaje", maridaje);
+        model.addAttribute("modo", "editar");
+        return "formulario-maridaje";
+    }
+
+    // Actualizar un maridaje
+    @PostMapping("/actualizar")
+    public String actualizarMaridaje( Maridaje maridaje, BindingResult error, Model model) {
+        if (error.hasErrors()) {
+            model.addAttribute("modo", "editar");
+            return "formulario-maridaje";
+        }
+        maridajeService.saveMaridaje(maridaje);
+        return "redirect:/maridajes";
     }
 
     // Eliminar un maridaje
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMaridaje(@PathVariable Long id) {
-        if (maridajeService.getMaridajeById(id).isPresent()) {
-            maridajeService.deleteMaridaje(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/eliminar/{id}")
+    public String eliminarMaridaje(@PathVariable Long id) {
+        maridajeService.deleteMaridaje(id);
+        return "redirect:/maridajes";
     }
 }
