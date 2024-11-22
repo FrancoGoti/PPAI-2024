@@ -1,2 +1,5 @@
-target
-PPAI-2024/PPAI-2024/src/main/resources/application.properties
+# Ignorar la carpeta target (archivos compilados de Maven/Gradle)
+target/
+
+# Ignorar archivos de configuración sensibles
+**/application.properties
