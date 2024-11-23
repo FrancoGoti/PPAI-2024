@@ -14,8 +14,11 @@ public class Siguiendo {
 
     private Bodega bodega;
 
-    public Siguiendo(Bodega bodega) {
-        this.bodega = bodega;
+    public Siguiendo() {
+    }
+    
+    public Long getId() {
+        return id;
     }
 
     public Bodega getBodega() {

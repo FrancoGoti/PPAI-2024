@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Siguiendo</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+    <header>
+        <nav>
+            <a th:href="@{/}">Inicio</a>
+            <a th:href="@{/pantalla-importar-vinos}">Importar</a>
+            <a th:href="@{/usuarios}">Usuarios</a>
+            <a th:href="@{/vinos}">Vino</a>
+            <a th:href="@{/bodegas}">Bodega</a>
+            <a th:href="@{/enofilos}">Enofilo</a>
+            <a th:href="@{/maridajes}">Maridaje</a>
+            <a th:href="@{/tipo-uvas}">Tipos de Uva</a>
+            <a th:href="@{/varietal}">Varietal</a>
+            <a th:href="@{/siguiendo}" class="activo">Siguiendo</a>
+        </nav>
+    </header>
+
+<div class="hero">
+    <div class="fila flex-center">
+        <h2>Listado de Seguidos</h2>
+    </div>
+
+    <div class="fila flex-center">
+        <a th:href="@{/siguiendo/nuevo}" class="btn-agregar">Agregar Seguido</a>
+    </div>
+
+    <div class="fila flex-center">
+        <div class="caja-tablas">
+            <table>
+                <thead>
+                    <tr>
+                    <th>ID</th>
+                    <th>Bodega</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="siguiendo : ${siguiendos}">
+                    <td th:text="${siguiendo.id}">ID</td>
+                    <td th:text="${siguiendo.bodega}">Bodega</td>
+                    <td>
+                        <a th:href="@{/siguiendo/editar/{id}(id=${siguiendo.id})}" class="btn-editar">Editar</a>
+                        <a th:href="@{/siguiendo/eliminar/{id}(id=${siguiendo.id})}" class="btn-eliminar">Eliminar</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

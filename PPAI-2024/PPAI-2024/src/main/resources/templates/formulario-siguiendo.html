@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Siguiendo</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+
+<body>
+
+<div class="hero">
+    <div class="fila flex-center">
+        <div class="caja-barra-busqueda-card">
+
+            <!-- Formulario para agregar un nuevo seguido -->
+            <div th:if="${modo eq 'nuevo'}">
+                <form th:action="@{/siguiendo/guardar}" th:object="${siguiendo}" method="POST">
+                    <div class="fila flex-column-center">
+                        <h2>Agregar Seguido</h2>
+
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="m-t flex-column-center">
+                            <label class="m-b-small" style="align-self: flex-start ;" for="bodega">Bodega</label>
+                            <select id="tipoUva" name="bodega" class="buscador-card" th:field="*{bodega}" required>
+                                <option value="" disabled selected>Selecciona una bodega</option>
+                                <option th:each="bodega : ${bodegas}"
+                                        th:value="${bodega.id}"
+                                        th:text="${bodega.nombre}"
+                                        th:selected="${siguiendo.bodega != null and siguiendo.bodega.id == bodega.id}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-editar-card m-t-small" value="Guardar" />
+                            <a class="btn-eliminar m-l" th:href="@{/siguiendo}">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Formulario para editar un seguido existente -->
+            <div th:if="${modo eq 'editar'}">
+                <form th:action="@{/siguiendo/actualizar/{id}(id=${siguiendo.id})}" th:object="${siguiendo}" method="POST">
+                    <div class="fila flex-column-center">
+                        <h2>Editar Seguido</h2>
+
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="m-t flex-column-center">
+                            <label class="m-b-small" style="align-self: flex-start ;" for="bodega">Bodega</label>
+                            <select id="tipoUva" name="bodega" class="buscador-card" th:field="*{bodega}" required>
+                                <option value="" disabled selected>Selecciona una bodega</option>
+                                <option th:each="bodega : ${bodegas}"
+                                        th:value="${bodega.id}"
+                                        th:text="${bodega.nombre}"
+                                        th:selected="${siguiendo.bodega != null and siguiendo.bodega.id == bodega.id}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-editar-card" value="Actualizar" />
+                            <a class="btn-eliminar m-l" th:href="@{/bodega}">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
