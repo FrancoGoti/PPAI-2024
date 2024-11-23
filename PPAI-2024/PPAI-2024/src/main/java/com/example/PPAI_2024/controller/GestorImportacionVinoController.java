@@ -46,7 +46,7 @@ public class GestorImportacionVinoController {
      /* Endpoint para seleccionar una bodega.*/
      @PostMapping("/seleccionar")
      public void tomarSelBodega(@RequestParam Bodega bodegaSeleccionada) {
-        gestorService.tomarSelBodega(bodegaSeleccionada.getId());
+        gestorService.tomarSelBodega(bodegaSeleccionada);
      }
 
     

@@ -27,25 +27,17 @@ public class BodegaService {
      * Actualiza los datos de los vinos de la bodega.
      */
     public void actualizarDatosVinosBodega(Bodega bodega, LocalDate fechaActual, List<Vino> actualizacionesDeBodega) {
-    bodega.setFechaActualizacion(fechaActual);
-
-    for (Vino actualizacion : actualizacionesDeBodega) {
-        for (Vino vino : bodega.getVinosBodega()) {
-            if (vino.getNombre().equals(actualizacion.getNombre())) {
-                
-                vinoService.actualizarDatos(vino, 
-                    actualizacion.getAñada(),
-                    fechaActual,
-                    actualizacion.getNombre(),
-                    actualizacion.getPrecio(),
-                    actualizacion.getNotaDeCataBodega(),
-                    actualizacion.getMaridaje(),
-                    actualizacion.getVarietal()
-                );
+        bodega.setFechaActualizacion(fechaActual);
+    
+        for (Vino actualizacion : actualizacionesDeBodega) {
+            for (Vino vino : bodega.getVinosBodega()) {
+                if (vino.getNombre().equals(actualizacion.getNombre())) {
+                    // Asumiendo que "vino" tiene el ID que necesita el método de VinoService
+                    actualizacion.setFechaActualizacion(fechaActual); // Actualiza la fecha en el objeto "actualizacion"
+                    vinoService.actualizarDatos(vino.getId(), actualizacion);
+                }
             }
         }
     }
-}
-
 }
 

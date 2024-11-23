@@ -31,8 +31,8 @@ public class PantallaImportarVinos {
     // Método para seleccionar bodega
     @PostMapping("/seleccionar-bodega")
     public String tomarSeleccionBodega(@RequestParam("bodegaId") Bodega bodegaSeleccionada, Model model) {
-        gestor.tomarSelBodega(bodegaSeleccionada.getId());
-        model.addAttribute("vinos", gestor.obtenerResumenVinosActualizados(bodegaSeleccionada.getId()));
+        gestor.tomarSelBodega(bodegaSeleccionada);
+        model.addAttribute("vinos", gestor.obtenerResumenVinosActualizados(bodegaSeleccionada));
         return "resumen-vinos"; // Página HTML con el resumen
     }
 
@@ -44,5 +44,3 @@ public class PantallaImportarVinos {
     }
 
 }
-
-
