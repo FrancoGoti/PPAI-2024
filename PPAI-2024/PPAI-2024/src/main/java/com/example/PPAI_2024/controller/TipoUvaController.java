@@ -48,7 +48,7 @@ public class TipoUvaController {
     // Mostrar formulario para editar un tipo de uva
     @GetMapping("/editar/{id}")
     public String editarTipoUva(@PathVariable Long id, Model model) {
-        var tipoUva = tipoUvaService.getTipoUvaById(id).orElse(null);
+        var tipoUva = tipoUvaService.getTipoUvaById(id);
         if (tipoUva != null) {
             model.addAttribute("tipoUva", tipoUva);  // Pasar el objeto completo
             model.addAttribute("modo", "editar");
@@ -59,13 +59,9 @@ public class TipoUvaController {
     }
     
     // Actualizar un tipo de uva
-    @PostMapping("/actualizar")
-    public String actualizarTipoUva(@ModelAttribute TipoUva tipoUva, BindingResult error, Model model) {
-        if (error.hasErrors()) {
-            model.addAttribute("modo", "editar");
-            return "formulario-tipo-uva";
-        }
-        tipoUvaService.saveTipoUva(tipoUva);
+    @PostMapping("/actualizar/{id}")
+    public String actualizarTipoUva(@PathVariable Long id, @ModelAttribute TipoUva tipoUva) {
+        tipoUvaService.actualizarDatos(id, tipoUva);
         return "redirect:/tipo-uvas";
     }
 

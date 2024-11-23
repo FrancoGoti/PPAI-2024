@@ -5,7 +5,6 @@ import com.example.PPAI_2024.service.MaridajeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -26,18 +25,15 @@ public class MaridajeController {
     // Mostrar formulario para agregar un nuevo maridaje
     @GetMapping("/nuevo")
     public String agregarMaridaje(Model model) {
-        model.addAttribute("maridaje", new Maridaje());
+        Maridaje nuevoMaridaje = new Maridaje();
+        model.addAttribute("maridaje", nuevoMaridaje);
         model.addAttribute("modo", "nuevo");
         return "formulario-maridaje"; // Nombre de la vista HTML para el formulario
     }
 
     // Guardar un nuevo maridaje
     @PostMapping("/guardar")
-    public String guardarMaridaje( Maridaje maridaje, BindingResult error, Model model) {
-        if (error.hasErrors()) {
-            model.addAttribute("modo", "nuevo");
-            return "formulario-maridaje";
-        }
+    public String guardarMaridaje(@ModelAttribute Maridaje maridaje) {
         maridajeService.saveMaridaje(maridaje);
         return "redirect:/maridajes";
     }
@@ -45,7 +41,7 @@ public class MaridajeController {
     // Mostrar formulario para editar un maridaje existente
     @GetMapping("/editar/{id}")
     public String editarFormulario(@PathVariable Long id, Model model) {
-        var maridaje = maridajeService.getMaridajeById(id).orElse(null);
+        Maridaje maridaje = maridajeService.getMaridajeById(id);
         if (maridaje == null) {
             return "redirect:/maridajes";
         }
@@ -55,13 +51,9 @@ public class MaridajeController {
     }
 
     // Actualizar un maridaje
-    @PostMapping("/actualizar")
-    public String actualizarMaridaje( Maridaje maridaje, BindingResult error, Model model) {
-        if (error.hasErrors()) {
-            model.addAttribute("modo", "editar");
-            return "formulario-maridaje";
-        }
-        maridajeService.saveMaridaje(maridaje);
+    @PostMapping("/actualizar/{id}")
+    public String actualizarMaridaje(@PathVariable Long id, @ModelAttribute Maridaje maridaje) {
+        maridajeService.actualizarDatos(id, maridaje);
         return "redirect:/maridajes";
     }
 

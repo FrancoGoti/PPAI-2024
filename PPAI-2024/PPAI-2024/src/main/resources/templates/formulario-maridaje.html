@@ -43,7 +43,7 @@
 
             <!-- Formulario para editar un usuario existente -->
             <div th:if="${modo eq 'editar'}">
-                <form th:action="@{/maridajes/actualizar}" th:object="${maridaje}" method="POST">
+                <form th:action="@{/maridajes/actualizar/{id}(id=${maridaje.id})}" th:object="${maridaje}" method="POST">
                     <div class="fila flex-column-center">
                         <h2>Editar Maridaje</h2>
 
@@ -57,12 +57,13 @@
 
                         <div class="m-t-small">
                             <label>Descripcion</label>
-                            <input class="buscador-card" type="checkbox" th:field="*{descripcion}" />
+                            <input class="buscador-card" type="text" th:field="*{descripcion}" required />
+                            <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
                         </div>
 
                         <div class="flex-center m-t">
                             <input type="submit" class="btn-editar-card" value="Actualizar" />
-                            <a class="btn-eliminar m-l" th:href="@{/usuarios}">Cancelar</a>
+                            <a class="btn-eliminar m-l" th:href="@{/maridajes}">Cancelar</a>
                         </div>
                     </div>
                 </form>

@@ -3,9 +3,8 @@ package com.example.PPAI_2024.service;
 import com.example.PPAI_2024.entity.TipoUva;
 import com.example.PPAI_2024.repository.TipoUvaRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class TipoUvaService {
@@ -22,8 +21,8 @@ public class TipoUvaService {
     }
 
     // Obtener un tipo de uva por ID
-    public Optional<TipoUva> getTipoUvaById(Long id) {
-        return tipoUvaRepository.findById(id);
+    public TipoUva getTipoUvaById(Long id) {
+        return tipoUvaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("TipoUva no encontrado con ID: " + id));
     }
 
     // Crear o actualizar un tipo de uva
@@ -34,5 +33,12 @@ public class TipoUvaService {
     // Eliminar un tipo de uva por ID
     public void deleteTipoUva(Long id) {
         tipoUvaRepository.deleteById(id);
+    }
+
+    public TipoUva actualizarDatos(Long id,TipoUva tipoUvaActualizado){
+        TipoUva tipoUvaExistente = getTipoUvaById(id);
+        tipoUvaExistente.setNombre(tipoUvaActualizado.getNombre());
+        tipoUvaExistente.setDescripcion(tipoUvaActualizado.getDescripcion());
+        return tipoUvaRepository.save(tipoUvaExistente);
     }
 }

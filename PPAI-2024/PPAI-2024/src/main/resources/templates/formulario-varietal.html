@@ -21,8 +21,8 @@
 
                         <input type="hidden" th:field="*{id}" />
 
-                        <div class="m-t-small">
-                            <label for="tipoUva">Tipo de Uva</label>
+                        <div class="m-t flex-column-center">
+                            <label class="m-b-small" style="align-self: flex-start ;" for="tipoUva">Tipo de Uva</label>
                             <select id="tipoUva" name="tipoUva" class="buscador-card" th:field="*{tipoUva}" required>
                                 <option value="" disabled selected>Selecciona un tipo de uva</option>
                                 <option th:each="tipoUva : ${tiposUva}"
@@ -55,14 +55,14 @@
 
             <!-- Formulario para editar un varietal existente -->
             <div th:if="${modo eq 'editar'}">
-                <form th:action="@{/varietal/actualizar}" th:object="${varietal}" method="POST">
+                <form th:action="@{/varietal/actualizar/{id}(id=${varietal.id})}" th:object="${varietal}" method="POST">
                     <div class="fila flex-column-center">
                         <h2>Editar Varietal</h2>
 
                         <input type="hidden" th:field="*{id}" />
 
-                        <div class="m-t-small">
-                            <label for="tipoUva">Tipo de Uva</label>
+                        <div class="m-t flex-column-center">
+                            <label class="m-b-small" style="align-self: flex-start ;" for="tipoUva">Tipo de Uva</label>
                             <select id="tipoUva" name="tipoUva" class="buscador-card" th:field="*{tipoUva}" required>
                                 <option value="" disabled selected>Selecciona un tipo de uva</option>
                                 <option th:each="tipoUva : ${tiposUva}"

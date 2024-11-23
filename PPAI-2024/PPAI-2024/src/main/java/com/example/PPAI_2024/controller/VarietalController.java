@@ -51,7 +51,7 @@ public class VarietalController {
     // Mostrar formulario para editar un varietal
     @GetMapping("/editar/{id}")
     public String editarVarietal(@PathVariable Long id, Model model) {
-    var varietal = varietalService.getVarietalById(id).orElse(null);
+    var varietal = varietalService.getVarietalById(id);
     if (varietal != null) {
         var tipoUva = varietal.getTipoUva();  // Desempaquetar el Optional aquí
         var tiposUva = tipoUvaService.getAllTipoUvas();
@@ -65,13 +65,9 @@ public class VarietalController {
 }
 
     // Actualizar un varietal
-    @PostMapping("/actualizar")
-    public String actualizarVarietal(@ModelAttribute Varietal varietal, BindingResult error, Model model) {
-        if (error.hasErrors()) {
-            model.addAttribute("modo", "editar");
-            return "formulario-varietal"; // Regresar al formulario si hay errores
-        }
-        varietalService.saveVarietal(varietal);
+    @PostMapping("/actualizar/{id}")
+    public String actualizarVarietal(@PathVariable Long id, @ModelAttribute Varietal varietal) {
+        varietalService.actualizarDatos(id, varietal);
         return "redirect:/varietal"; // Redirigir a la lista de varietales
     }
 

@@ -3,9 +3,8 @@ package com.example.PPAI_2024.service;
 import com.example.PPAI_2024.entity.Varietal;
 import com.example.PPAI_2024.repository.VarietalRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class VarietalService {
@@ -22,8 +21,8 @@ public class VarietalService {
     }
 
     // Obtener un varietal por ID
-    public Optional<Varietal> getVarietalById(Long id) {
-        return varietalRepository.findById(id);
+    public Varietal getVarietalById(Long id) {
+        return varietalRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Maridaje no encontrado con ID: " + id));
     }
 
     // Crear o actualizar un varietal
@@ -34,5 +33,13 @@ public class VarietalService {
     // Eliminar un varietal por ID
     public void deleteVarietal(Long id) {
         varietalRepository.deleteById(id);
+    }
+
+    public Varietal actualizarDatos(Long id, Varietal varietalActualizado){
+        Varietal varietalExistente = getVarietalById(id);
+        varietalExistente.setTipoUva(varietalActualizado.getTipoUva());
+        varietalExistente.setDescripcion(varietalActualizado.getDescripcion());
+        varietalExistente.setPorcentajeComposicion(varietalActualizado.getPorcentajeComposicion());
+        return varietalRepository.save(varietalExistente);
     }
 }

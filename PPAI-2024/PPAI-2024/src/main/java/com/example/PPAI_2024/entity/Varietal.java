@@ -1,4 +1,6 @@
 package com.example.PPAI_2024.entity;
+import java.util.Objects;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -53,4 +55,18 @@ public class Varietal {
     public void setPorcentajeComposicion(float porcentajeComposicion) {
         this.porcentajeComposicion = porcentajeComposicion;
     }
+
+    @Override
+    public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Varietal varietal = (Varietal) o;
+    return Objects.equals(id, varietal.id);
+    }
+    
+    @Override
+    public int hashCode() {
+    return Objects.hash(id);
+    }
+
 }

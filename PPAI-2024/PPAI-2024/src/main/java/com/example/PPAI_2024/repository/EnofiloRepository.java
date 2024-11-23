@@ -7,6 +7,6 @@ import com.example.PPAI_2024.entity.Enofilo;
 
 public interface EnofiloRepository extends JpaRepository<Enofilo, Long> {
 
-    List<Enofilo> findByBodegaId(Long bodegaId);
+    // List<Enofilo> findByBodegaId(Long bodegaId);
 
 }

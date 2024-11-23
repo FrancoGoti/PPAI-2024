@@ -33,18 +33,26 @@
         <div class="caja-tablas">
             <table>
                 <thead>
-                <tr>
+                    <tr>
+                    <th>ID</th>
                     <th>Nombre</th>
                     <th>Añada</th>
                     <th>Precio</th>
+                    <th>NotaDeCata</th>
+                    <th>Varietal</th>
+                    <th>Maridaje</th>
                     <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="vino : ${vinos}">
+                    <td th:text="${vino.id}">ID</td>
                     <td th:text="${vino.nombre}">Nombre</td>
                     <td th:text="${vino.añada}">Añada</td>
                     <td th:text="${vino.precio}">Precio</td>
+                    <td th:text="${vino.notaDeCataBodega}">NotaDeCata</td>
+                    <td th:text="${vino.varietal.descripcion}">Varietal</td>
+                    <td th:text="${vino.maridaje.nombre}">Maridaje</td>
                     <td>
                         <a th:href="@{/vinos/editar/{id}(id=${vino.id})}" class="btn-editar">Editar</a>
                         <a th:href="@{/vinos/eliminar/{id}(id=${vino.id})}" class="btn-eliminar">Eliminar</a>

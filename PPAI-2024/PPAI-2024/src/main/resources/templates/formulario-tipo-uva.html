@@ -43,7 +43,7 @@
 
             <!-- Formulario para editar un tipo de uva existente -->
             <div th:if="${modo eq 'editar'}">
-                <form th:action="@{/tipo-uvas/actualizar}" th:object="${tipoUva}" method="POST">
+                <form th:action="@{/tipo-uvas/actualizar/{id}(id=${tipoUva.id})}" th:object="${tipoUva}" method="POST">
                     <div class="fila flex-column-center">
                         <h2>Editar Tipo de Uva</h2>
 
