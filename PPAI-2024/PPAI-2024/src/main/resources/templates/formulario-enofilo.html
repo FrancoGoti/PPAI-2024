@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Varietal</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+
+<body>
+
+<div class="hero">
+    <div class="fila flex-center">
+        <div class="caja-barra-busqueda-card">
+
+            <!-- Formulario para agregar un nuevo varietal -->
+            <div th:if="${modo eq 'nuevo'}">
+                <form th:action="@{/enofilos/guardar}" th:object="${enofilo}" method="POST">
+                    <div class="fila flex-column-center">
+                        <h2>Agregar Enófilo</h2>
+
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="m-t-small">
+                            <label>Nombre</label>
+                            <input class="buscador-card" type="text" th:field="*{nombre}" required />
+                            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Apellido</label>
+                            <input class="buscador-card" type="text" th:field="*{apellido}" required />
+                            <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></span>
+                        </div>
+
+                        <div class="m-t flex-column-center">
+                            <label class="m-b-small" style="align-self: flex-start ;" for="seguido">Seguido</label>
+                            <select id="seguido" name="seguido" class="buscador-card" th:field="*{seguido}" required>
+                                <option value="" disabled selected>Selecciona una bodega</option>
+                                <option th:each="seguido : ${seguidos}"
+                                        th:value="${seguido.id}"
+                                        th:text="${seguido.bodega.nombre}"
+                                        th:selected="${enofilo.seguido != null and enofilo.seguido.id == seguido.id}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="m-t flex-column-center">
+                            <label class="m-b-small" style="align-self: flex-start ;" for="usuario">Usuario</label>
+                            <select id="usuario" name="usuario" class="buscador-card" th:field="*{usuario}" required>
+                                <option value="" disabled selected>Selecciona una usuario</option>
+                                <option th:each="usuario : ${usuarios}"
+                                        th:value="${usuario.id}"
+                                        th:text="${usuario.nombre}"
+                                        th:selected="${enofilo.usuario != null and enofilo.usuario.id == usuario.id}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="m-t flex-column-center">
+                            <label class="m-b-small" style="align-self: flex-start ;" for="favorito">Vino Favorito</label>
+                            <select id="favorito" name="favorito" class="buscador-card" th:field="*{favorito}" required>
+                                <option value="" disabled selected>Selecciona un vino</option>
+                                <option th:each="favorito : ${favoritos}"
+                                        th:value="${favorito.id}"
+                                        th:text="${favorito.nombre}"
+                                        th:selected="${enofilo.favorito != null and enofilo.favorito.id == favorito.id}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-editar-card m-t-small" value="Guardar" />
+                            <a class="btn-eliminar m-l" th:href="@{/enofilos}">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Formulario para editar un varietal existente -->
+            <div th:if="${modo eq 'editar'}">
+                <form th:action="@{/enofilos/actualizar/{id}(id=${enofilo.id})}" th:object="${enofilo}" method="POST">
+                    <div class="fila flex-column-center">
+                        <h2>Editar Varietal</h2>
+
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="m-t-small">
+                            <label>Nombre</label>
+                            <input class="buscador-card" type="text" th:field="*{nombre}" required />
+                            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Apellido</label>
+                            <input class="buscador-card" type="text" th:field="*{apellido}" required />
+                            <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></span>
+                        </div>
+
+                        <div class="m-t flex-column-center">
+                            <label class="m-b-small" style="align-self: flex-start ;" for="seguido">Seguido</label>
+                            <select id="seguido" name="seguido" class="buscador-card" th:field="*{seguido}" required>
+                                <option value="" disabled selected>Selecciona una bodega</option>
+                                <option th:each="seguido : ${seguidos}"
+                                        th:value="${seguido.id}"
+                                        th:text="${seguido.bodega.nombre}"
+                                        th:selected="${enofilo.seguido != null and enofilo.seguido.id == seguido.id}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="m-t flex-column-center">
+                            <label class="m-b-small" style="align-self: flex-start ;" for="seguido">Usuario</label>
+                            <select id="usuario" name="usuario" class="buscador-card" th:field="*{usuario}" required>
+                                <option value="" disabled selected>Selecciona una usuario</option>
+                                <option th:each="usuario : ${usuarios}"
+                                        th:value="${usuario.id}"
+                                        th:text="${usuario.nombre}"
+                                        th:selected="${enofilo.usuario != null and enofilo.usuario.id == usuario.id}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="m-t flex-column-center">
+                            <label class="m-b-small" style="align-self: flex-start ;" for="favorito">Vino Favorito</label>
+                            <select id="favorito" name="favorito" class="buscador-card" th:field="*{favorito}" required>
+                                <option value="" disabled selected>Selecciona un vino</option>
+                                <option th:each="favorito : ${favoritos}"
+                                        th:value="${favorito.id}"
+                                        th:text="${favorito.nombre}"
+                                        th:selected="${enofilo.favorito != null and enofilo.favorito.id == favorito.id}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-editar-card" value="Actualizar" />
+                            <a class="btn-eliminar m-l" th:href="@{/enofilos}">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
