@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Bodega</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+
+<body>
+
+<div class="hero">
+    <div class="fila flex-center">
+        <div class="caja-barra-busqueda-card">
+
+            <div th:if="${modo eq 'nuevo'}">
+                <form th:action="@{/bodegas/guardar}" th:object="${bodega}" method="POST">
+                    <div class="fila flex-column-center">
+                        <h2>Agregar Bodega</h2>
+
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="m-t-small">
+                            <label>Nombre</label>
+                            <input class="buscador-card" type="text" th:field="*{nombre}" required />
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Historia</label>
+                            <input class="buscador-card" type="text" th:field="*{historia}" required/>    
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Fecha Actualizacion</label>
+                            <input class="buscador-card" type="date" th:field="*{fechaActualizacion}" required />
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Periodo de Actualizacion</label>
+                            <input class="buscador-card" type="number" th:field="*{periodoActualizacion}" required/>
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Coordenadas</label>
+                            <input class="buscador-card" type="text" th:field="*{coordenadas}" required/> 
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Descripción</label>
+                            <input class="buscador-card" type="text" th:field="*{descripcion}" required maxlength="255" /> 
+                        </div>
+
+
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-editar-card m-t-small" value="Guardar" />
+                            <a class="btn-eliminar m-l" th:href="@{/bodegas}">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div th:if="${modo eq 'editar'}">
+                <form th:action="@{/bodegas/actualizar/{id}(id=${bodega.id})}" th:object="${bodega}" method="POST">
+                    <div class="fila flex-column-center">
+                        <h2>Editar Bodega</h2>
+
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="m-t-small">
+                            <label>Nombre</label>
+                            <input class="buscador-card" type="text" th:field="*{nombre}" required />
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Historia</label>
+                            <input class="buscador-card" type="text" th:field="*{historia}" required/>    
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Fecha Actualizacion</label>
+                            <input class="buscador-card" type="date" th:field="*{fechaActualizacion}" required />
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Periodo de Actualizacion</label>
+                            <input class="buscador-card" type="number" th:field="*{periodoActualizacion}" required/>
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Coordenadas</label>
+                            <input class="buscador-card" type="text" th:field="*{coordenadas}" required/> 
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Descripción</label>
+                            <input class="buscador-card" type="text" th:field="*{descripcion}" required maxlength="255" /> 
+                        </div>
+                        
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-editar-card" value="Actualizar" />
+                            <a class="btn-eliminar m-l" th:href="@{/bodegas}">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

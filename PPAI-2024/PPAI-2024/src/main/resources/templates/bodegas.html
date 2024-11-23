@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bodegas</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+    <header>
+        <nav>
+            <a th:href="@{/}">Inicio</a>
+            <a th:href="@{/pantalla-importar-vinos}">Importar</a>
+            <a th:href="@{/usuarios}">Usuarios</a>
+            <a th:href="@{/vinos}" >Vino</a>
+            <a th:href="@{/bodegas}" class="activo">Bodega</a>
+            <a th:href="@{/enofilos}">Enofilo</a>
+            <a th:href="@{/maridajes}">Maridaje</a>
+            <a th:href="@{/tipo-uvas}">Tipos de Uva</a>
+            <a th:href="@{/varietal}">Varietal</a>
+        </nav>
+    </header>
+
+<div class="hero">
+    <div class="fila flex-center">
+        <h2>Bodegas</h2>
+    </div>
+
+    <div class="fila flex-center">
+        <a th:href="@{/bodegas/nuevo}" class="btn-agregar">Agregar Bodega</a>
+    </div>
+
+    <div class="fila flex-center">
+        <div class="caja-tablas">
+            <table>
+                <thead>
+                    <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Historia</th>
+                    <th>FechaActualizacion</th>
+                    <th>PeriodoActualizacion</th>
+                    <th>Coordenadas</th>
+                    <th>Descripcion</th>
+                    <th>Vinos</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="bodega : ${bodegas}">
+                    <td th:text="${bodega.id}">ID</td>
+                    <td th:text="${bodega.nombre}">Nombre</td>
+                    <td th:text="${bodega.historia}">Historia</td>
+                    <td th:text="${bodega.fechaActualizacion}">FechaActualizacion</td>
+                    <td th:text="${bodega.periodoActualizacion}">PeriodoActualizacion</td>
+                    <td th:text="${bodega.coordenadas}">Coordenadas</td>
+                    <td th:text="${bodega.descripcion}">Descripcion</td>
+                    <!-- <td th:text="${bodega.descripcion}">Varietal</td> Completar con un boton para ir a la parte de vinos bodega -->
+                    
+                    <td>
+                        <a th:href="@{/bodegas/editar/{id}(id=${bodega.id})}" class="btn-editar">Editar</a>
+                        <a th:href="@{/bodegas/eliminar/{id}(id=${bodega.id})}" class="btn-eliminar">Eliminar</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

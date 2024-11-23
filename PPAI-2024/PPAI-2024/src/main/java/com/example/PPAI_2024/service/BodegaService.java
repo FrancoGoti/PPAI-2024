@@ -2,7 +2,7 @@ package com.example.PPAI_2024.service;
 
 import com.example.PPAI_2024.entity.Bodega;
 import com.example.PPAI_2024.entity.Vino;
-
+import com.example.PPAI_2024.repository.BodegaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
@@ -12,6 +12,11 @@ import java.util.List;
 @Service
 public class BodegaService {
 
+    private final BodegaRepository bodegaRepository;
+
+    public BodegaService(BodegaRepository bodegaRepository) {
+            this.bodegaRepository = bodegaRepository;
+    }
     
     @Autowired
     private VinoService vinoService;
@@ -38,6 +43,37 @@ public class BodegaService {
                 }
             }
         }
+    }
+
+    public List<Bodega> obtenerBodegas(){
+        return bodegaRepository.findAll();
+    }
+
+    public Bodega guardar(Bodega bodega){
+        return bodegaRepository.save(bodega);
+    }
+
+    public Bodega obtenerPorId(Long id) {
+        return bodegaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Vino no encontrado con ID: " + id));
+    }
+
+    public Bodega actualizarDatos(Long id, Bodega bodegaActualizada){
+        Bodega bodegaExistente = obtenerPorId(id);
+        bodegaExistente.setNombre(bodegaActualizada.getNombre());
+        bodegaExistente.setDescripcion(bodegaActualizada.getDescripcion());
+        bodegaExistente.setCoordenadas(bodegaActualizada.getCoordenadas());
+        bodegaExistente.setHistoria(bodegaActualizada.getHistoria());
+        bodegaExistente.setPeriodoActualizacion(bodegaActualizada.getPeriodoActualizacion());
+        bodegaExistente.setFechaActualizacion(bodegaActualizada.getFechaActualizacion());
+        return bodegaRepository.save(bodegaExistente);
+    }
+
+    public void eliminar(Long id) {
+        if (!bodegaRepository.existsById(id)) {
+            throw new IllegalArgumentException("Vino no encontrado con ID: " + id);
+        }
+        bodegaRepository.deleteById(id);
     }
 }
 
