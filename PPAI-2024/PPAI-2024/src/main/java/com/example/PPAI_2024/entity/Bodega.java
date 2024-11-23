@@ -2,14 +2,13 @@ package com.example.PPAI_2024.entity;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Bodega implements Serializable {
+public class Bodega {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,19 +16,21 @@ public class Bodega implements Serializable {
 
     private String nombre;
 
+    @Column(length = 500)
     private String historia;
-    
+
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDate fechaActualizacion;
-    
+
     private int periodoActualizacion;
 
     private String coordenadas;
 
+    @Column(length = 1000)
     private String descripcion;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bodega", orphanRemoval = true)
     private List<Vino> vinosBodega = new ArrayList<>();
-    // @OneToMany(mappedBy = "bodega", orphanRemoval = true)
 
     // Constructor vacío requerido por JPA
     public Bodega() {
@@ -117,13 +118,8 @@ public class Bodega implements Serializable {
         return nombre;
     }
 
-    public boolean tieneActualizacionDisponible(LocalDate fechaActualizacion, LocalDate fechaActual) {
-         long diferenciaFechas = ChronoUnit.MONTHS.between(fechaActualizacion, fechaActual);
-        if (diferenciaFechas > periodoActualizacion){
-            return true;
-        }
-        else{
-            return false;
-        }
+    public Object tieneActualizacionDisponible(Bodega b, LocalDate localDate, LocalDate localDate2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'tieneActualizacionDisponible'");
     }
 }
