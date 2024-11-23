@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulario Vino</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+
+<div class="hero">
+    <div class="fila flex-center">
+        <h2 th:text="${vino.id == null ? 'Agregar Vino' : 'Editar Vino'}"></h2>
+    </div>
+
+    <div class="fila flex-center">
+        <form th:action="@{${vino.id == null ? '/vinos/guardar' : '/vinos/actualizar/' + vino.id}}" 
+              th:object="${vino}" 
+              method="POST" 
+              class="formulario">
+            <div class="m-t-small">
+                <label>Nombre</label>
+                <input type="text" th:field="*{nombre}" required />
+            </div>
+
+            <div class="m-t-small">
+                <label>Añada</label>
+                <input type="number" th:field="*{añada}" required />
+            </div>
+
+            <div class="m-t-small">
+                <label>Precio</label>
+                <input type="text" th:field="*{precio}" required />
+            </div>
+
+            <div class="m-t-small">
+                <label>Nota de Cata</label>
+                <textarea th:field="*{notaDeCataBodega}" required></textarea>
+            </div>
+
+            <div class="m-t-small">
+                <label>Maridaje</label>
+                <input type="text" th:field="*{maridaje.nombre}" />
+            </div>
+
+            <div class="m-t-small">
+                <label>Varietal</label>
+                <input type="text" th:field="*{varietal.nombre}" />
+            </div>
+
+            <div class="m-t">
+                <button type="submit">Guardar</button>
+                <a th:href="@{/vinos}" class="btn-cancelar">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

@@ -2,14 +2,13 @@ package com.example.PPAI_2024.controller;
 
 import com.example.PPAI_2024.entity.TipoUva;
 import com.example.PPAI_2024.service.TipoUvaService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
-@RestController
-@RequestMapping("/api/tipo-uvas")
+@Controller
+@RequestMapping("/tipo-uvas")
 public class TipoUvaController {
 
     private final TipoUvaService tipoUvaService;
@@ -18,47 +17,63 @@ public class TipoUvaController {
         this.tipoUvaService = tipoUvaService;
     }
 
-    // Obtener todos los tipos de uva
+    // Listar todos los tipos de uva
     @GetMapping
-    public List<TipoUva> getAllTipoUvas() {
-        return tipoUvaService.getAllTipoUvas();
+    public String listarTipoUvas(Model model) {
+        var tipoUvas = tipoUvaService.getAllTipoUvas();
+        model.addAttribute("tipoUvas", tipoUvas);
+        return "tipo-uvas"; // Vista para listar tipos de uva
     }
 
-    // Obtener un tipo de uva por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<TipoUva> getTipoUvaById(@PathVariable Long id) {
-        Optional<TipoUva> tipoUva = tipoUvaService.getTipoUvaById(id);
-        return tipoUva.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    // Mostrar formulario para agregar un tipo de uva
+    @GetMapping("/nuevo")
+    public String agregarTipoUva(Model model) {
+        var tipoUva = new TipoUva();
+        model.addAttribute("tipoUva", tipoUva);
+        model.addAttribute("modo", "nuevo");
+        return "formulario-tipo-uva"; // Vista del formulario
     }
 
-    // Crear un nuevo tipo de uva
-    @PostMapping
-    public TipoUva createTipoUva(@RequestBody TipoUva tipoUva) {
-        return tipoUvaService.saveTipoUva(tipoUva);
-    }
-
-    // Actualizar un tipo de uva existente
-    @PutMapping("/{id}")
-    public ResponseEntity<TipoUva> updateTipoUva(@PathVariable Long id, @RequestBody TipoUva tipoUvaDetails) {
-        Optional<TipoUva> existingTipoUva = tipoUvaService.getTipoUvaById(id);
-        if (existingTipoUva.isPresent()) {
-            TipoUva updatedTipoUva = existingTipoUva.get();
-            updatedTipoUva.setNombre(tipoUvaDetails.getNombre());
-            updatedTipoUva.setDescripcion(tipoUvaDetails.getDescripcion());
-            return ResponseEntity.ok(tipoUvaService.saveTipoUva(updatedTipoUva));
-        } else {
-            return ResponseEntity.notFound().build();
+    // Guardar un nuevo tipo de uva
+    @PostMapping("/guardar")
+    public String guardarTipoUva(@ModelAttribute TipoUva tipoUva, BindingResult error, Model model) {
+        if (error.hasErrors()) {
+            model.addAttribute("modo", "nuevo");
+            return "formulario-tipo-uva";
         }
+        tipoUvaService.saveTipoUva(tipoUva);
+        return "redirect:/tipo-uvas";
+    }
+
+    // Mostrar formulario para editar un tipo de uva
+    @GetMapping("/editar/{id}")
+    public String editarTipoUva(@PathVariable Long id, Model model) {
+        var tipoUva = tipoUvaService.getTipoUvaById(id).orElse(null);
+        if (tipoUva != null) {
+            model.addAttribute("tipoUva", tipoUva);  // Pasar el objeto completo
+            model.addAttribute("modo", "editar");
+            return "formulario-tipo-uva";
+        } else {
+            return "redirect:/tipo-uvas";  // Asegúrate que la redirección esté a la URL correcta
+        }
+    }
+    
+    // Actualizar un tipo de uva
+    @PostMapping("/actualizar")
+    public String actualizarTipoUva(@ModelAttribute TipoUva tipoUva, BindingResult error, Model model) {
+        if (error.hasErrors()) {
+            model.addAttribute("modo", "editar");
+            return "formulario-tipo-uva";
+        }
+        tipoUvaService.saveTipoUva(tipoUva);
+        return "redirect:/tipo-uvas";
     }
 
     // Eliminar un tipo de uva
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTipoUva(@PathVariable Long id) {
-        if (tipoUvaService.getTipoUvaById(id).isPresent()) {
-            tipoUvaService.deleteTipoUva(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/eliminar/{id}")
+    public String eliminarTipoUva(@PathVariable Long id) {
+        tipoUvaService.deleteTipoUva(id);
+        return "redirect:/tipo-uvas";
     }
 }
+

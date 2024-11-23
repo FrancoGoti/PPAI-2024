@@ -1,6 +1,7 @@
 package com.example.PPAI_2024.controller;
 
 import com.example.PPAI_2024.entity.Varietal;
+import com.example.PPAI_2024.service.TipoUvaService;
 import com.example.PPAI_2024.service.VarietalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,9 @@ public class VarietalController {
     @Autowired
     private VarietalService varietalService;
 
+    @Autowired
+    private TipoUvaService tipoUvaService;
+
     // Listar todos los varietales
     @GetMapping
     public String listarVarietal(Model model) {
@@ -23,11 +27,12 @@ public class VarietalController {
         return "varietal"; // Vista con los varietales
     }
 
-    // Mostrar formulario para agregar un varietal
     @GetMapping("/nuevo")
     public String agregarVarietal(Model model) {
         var varietal = new Varietal();
+        var tiposUva = tipoUvaService.getAllTipoUvas(); // Obtener todos los tipos de uva
         model.addAttribute("varietal", varietal);
+        model.addAttribute("tiposUva", tiposUva); // Agregar los tipos de uva al modelo
         model.addAttribute("modo", "nuevo");
         return "formulario-varietal"; // Vista del formulario para agregar un varietal
     }
@@ -46,18 +51,22 @@ public class VarietalController {
     // Mostrar formulario para editar un varietal
     @GetMapping("/editar/{id}")
     public String editarVarietal(@PathVariable Long id, Model model) {
-        var varietal = varietalService.getVarietalById(id).orElse(null);
-        if (varietal != null) {
-            model.addAttribute("varietal", varietal);
-            model.addAttribute("modo", "editar");
-            return "formulario-varietal"; // Vista del formulario para editar
-        }
-        return "redirect:/varietal"; // Redirigir si no se encuentra el varietal
+    var varietal = varietalService.getVarietalById(id).orElse(null);
+    if (varietal != null) {
+        var tipoUva = varietal.getTipoUva();  // Desempaquetar el Optional aquí
+        var tiposUva = tipoUvaService.getAllTipoUvas();
+        model.addAttribute("varietal", varietal);
+        model.addAttribute("tipoUva", tipoUva);  // Pasar tipoUva desempaquetado
+        model.addAttribute("tiposUva", tiposUva);
+        model.addAttribute("modo", "editar");
+        return "formulario-varietal";
     }
+    return "redirect:/varietal";
+}
 
     // Actualizar un varietal
     @PostMapping("/actualizar")
-    public String actualizarVarietal(Varietal varietal, BindingResult error, Model model) {
+    public String actualizarVarietal(@ModelAttribute Varietal varietal, BindingResult error, Model model) {
         if (error.hasErrors()) {
             model.addAttribute("modo", "editar");
             return "formulario-varietal"; // Regresar al formulario si hay errores

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Varietales</title>
+    <title>Tipos de Uva</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/styles.css}" />
 </head>
@@ -15,18 +15,18 @@
         <a th:href="@{/#}">Bodega</a>
         <a th:href="@{/#}">Enofilo</a>
         <a th:href="@{/maridaje}">Maridaje</a>
-        <a th:href="@{/tipo-uvas}">Tipos de Uva</a>
-        <a th:href="@{/varietal}" class="activo">Varietal</a>
+        <a th:href="@{/tipo-uvas}" class="activo">Tipos de Uva</a>
+        <a th:href="@{/varietal}">Varietal</a>
     </nav>
 </header>
 
 <div class="hero">
     <div class="fila flex-center">
-        <h2>Listado de Varietales</h2>
+        <h2>Tipos de Uva</h2>
     </div>
 
     <div class="fila flex-center">
-        <a th:href="@{/varietal/nuevo}" class="btn-agregar">Agregar Varietal</a>
+        <a th:href="@{/tipo-uvas/nuevo}" class="btn-agregar">Agregar</a>
     </div>
 
     <div class="fila flex-center">
@@ -35,21 +35,19 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Tipo de Uva</th>
+                    <th>Nombre</th>
                     <th>Descripción</th>
-                    <th>Porcentaje de Composición</th>
                     <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="varietal : ${varietal}">
-                    <td th:text="${varietal.id}">ID</td>
-                    <td th:text="${varietal.tipoUva.nombre}">Tipo de Uva</td>
-                    <td th:text="${varietal.descripcion}">Descripción</td>
-                    <td th:text="${varietal.porcentajeComposicion} + '%'">Porcentaje</td>
+                <tr th:each="tipoUva : ${tipoUvas}">
+                    <td th:text="${tipoUva.id}">ID</td>
+                    <td th:text="${tipoUva.nombre}">Nombre</td>
+                    <td th:text="${tipoUva.descripcion}">Descripción</td>
                     <td>
-                        <a th:href="@{/varietal/editar/{id}(id=${varietal.id})}" class="btn-editar">Editar</a>
-                        <a th:href="@{/varietal/eliminar/{id}(id=${varietal.id})}" class="btn-eliminar">Eliminar</a>
+                        <a th:href="@{/tipo-uvas/editar/{id}(id=${tipoUva.id})}" class="btn-editar">Editar</a>
+                        <a th:href="@{/tipo-uvas/eliminar/{id}(id=${tipoUva.id})}" class="btn-eliminar">Eliminar</a>
                     </td>
                 </tr>
                 </tbody>
