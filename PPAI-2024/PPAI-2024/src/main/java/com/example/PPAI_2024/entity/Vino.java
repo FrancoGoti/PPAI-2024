@@ -14,7 +14,7 @@ public class Vino {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int añada;
+    private int aniada;
 
     
     private LocalDate fechaActualizacion;
@@ -47,8 +47,8 @@ public class Vino {
     }
 
     // Constructor completo
-    public Vino(int añada, LocalDate fechaActualizacion, String nombre, String notaDeCataBodega, float precio, Maridaje maridaje, Varietal varietal) {
-        this.añada = añada;
+    public Vino(int aniada, LocalDate fechaActualizacion, String nombre, String notaDeCataBodega, float precio, Maridaje maridaje, Varietal varietal) {
+        this.aniada = aniada;
         this.fechaActualizacion = fechaActualizacion;
         this.nombre = nombre;
         this.notaDeCataBodega = notaDeCataBodega;
@@ -66,12 +66,12 @@ public class Vino {
         this.id = id;
     }
 
-    public int getAñada() {
-        return añada;
+    public int getAniada() {
+        return aniada;
     }
 
-    public void setAñada(int añada) {
-        this.añada = añada;
+    public void setAniada(int aniada) {
+        this.aniada = aniada;
     }
 
     public LocalDate getFechaActualizacion() {
@@ -142,5 +142,15 @@ public class Vino {
     public int hashCode() {
         return Objects.hash(nombre);
     }
-
+    
+    //Metodo 16
+    public void actualizarDatos(int aniada, LocalDate fechaActualizacion, String nombre, float precio, String notaDeCataBodega, Maridaje maridaje, Varietal varietal){
+        setAniada(aniada);
+        setFechaActualizacion(fechaActualizacion);
+        setNombre(nombre);
+        setPrecio(precio);
+        setNotaDeCataBodega(notaDeCataBodega);
+        setMaridaje(maridaje);
+        setVarietal(varietal);
+    }
 }

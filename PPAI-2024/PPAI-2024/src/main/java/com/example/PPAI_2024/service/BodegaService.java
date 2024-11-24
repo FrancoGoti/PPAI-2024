@@ -45,6 +45,7 @@ public class BodegaService {
         }
     }
 
+    
     public List<Bodega> obtenerBodegas(){
         return bodegaRepository.findAll();
     }

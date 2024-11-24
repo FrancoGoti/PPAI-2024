@@ -8,6 +8,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
 public class Bodega implements Serializable {
 
@@ -136,4 +137,34 @@ public class Bodega implements Serializable {
             return false;
         }
     }
+
+    public void actualizarDatosVinosBodega(Bodega bodegaSeleccionada, List<Vino> vinosActualizados){
+            LocalDate fechaActual = LocalDate.now();
+            this.setFechaActualizacion(fechaActual);
+                    
+            for (int i = 0; i < vinosActualizados.size(); i++){
+                for (int j = 0; j < vinos.size(); j++){
+                    if (vinos.get(j).getNombre().equals(vinosActualizados.get(i).getNombre())){
+                        LocalDate fechaActualizacion = fechaActual;
+                        int añada = vinosActualizados.get(i).getAniada();
+                        String nombre = vinosActualizados.get(i).getNombre();
+                        float precio = vinosActualizados.get(i).getPrecio();
+                        String notaDeCataBodega = vinosActualizados.get(i).getNotaDeCataBodega();
+                        Maridaje maridaje = vinosActualizados.get(i).getMaridaje();
+                        Varietal varietal = vinosActualizados.get(i).getVarietal();
+    
+                        vinos.get(j).actualizarDatos(añada, fechaActualizacion, nombre, precio, notaDeCataBodega, maridaje, varietal);
+                        //break; // salir del bucle interno cuando se encuentra el vino correspondiente
+                    }
+                    else{
+                        vinos.add(vinosActualizados.get(i));
+                    }
+                }
+            }
+        }
+   
+    
+
+
 }
+

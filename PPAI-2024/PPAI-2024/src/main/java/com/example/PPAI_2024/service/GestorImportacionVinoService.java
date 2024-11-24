@@ -4,10 +4,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.PPAI_2024.entity.Bodega;
 import com.example.PPAI_2024.entity.Vino;
+import com.example.PPAI_2024.entity.VinoApiService;
 import com.example.PPAI_2024.repository.BodegaRepository;
 // import com.example.PPAI_2024.repository.EnofiloRepository;
-import com.example.PPAI_2024.repository.VinoRepository;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,14 +16,20 @@ public class GestorImportacionVinoService {
     @Autowired
     private BodegaRepository bodegaRepository;
 
+    
+
+    @Autowired
+    private VinoApiService vinoApiService;
     // @Autowired
     // private EnofiloRepository enofiloRepository;
 
-    @Autowired
-    private VinoRepository vinoRepository;
 
     public GestorImportacionVinoService(BodegaRepository bodegaRepository) {
         this.bodegaRepository = bodegaRepository;
+    }
+
+    public List<Bodega> importarActualizacionVinoBodega(){
+        return buscarBodegasActDisponible();
     }
 
     public List<Bodega> buscarBodegasActDisponible() {
@@ -36,22 +41,15 @@ public class GestorImportacionVinoService {
             .toList();
     }
 
-    public void actualizarVinosBodega(Long bodegaId, List<Vino> nuevosVinos) {
-        Bodega bodega = bodegaRepository.findById(bodegaId)
-            .orElseThrow(() -> new RuntimeException("Bodega no encontrada"));
-
-        bodega.setVinosBodega(nuevosVinos);
-        bodegaRepository.save(bodega);
+    public List<Vino> obtenerActualizacionesBodegaSel(Bodega bodegaSeleccionada){
+        return vinoApiService.obtenerActualizaciones();
     }
 
-    // public void buscarEnofilosSuscriptos(Long bodegaId) {
-    //     List<Enofilo> enofilos = enofiloRepository.findByBodegaId(bodegaId);
+    public void actualizarVinosBodegaSel(Bodega bodegaSeleccionada, List<Vino> vinosActualizados){
+        bodegaSeleccionada.actualizarDatosVinosBodega(bodegaSeleccionada, vinosActualizados);
 
-    //     // Simulación de notificación
-    //     enofilos.forEach(enofilo -> {
-    //         System.out.println("Notificando a enófilo: " + enofilo.getNombre());
-    //     });
-    // }
+    }
+    
 
     public LocalDate buscarFechaActual() {
         return LocalDate.now();
@@ -63,13 +61,8 @@ public class GestorImportacionVinoService {
     }
 
     public List<Vino> obtenerResumenVinosActualizados(Bodega bodega) {
-        return vinoRepository.findByBodegas(bodega);
+        return bodegaRepository.findVinosByBodegaId(bodega.getId());
     }
 
-    // private LocalDate convertirDateALocalDate(Date date) {
-    //     if (date == null) {
-    //         return null; // Manejo de nulos si es necesario
-    //     }
-    //     return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-    // }
+
 }

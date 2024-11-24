@@ -37,7 +37,7 @@ public class VinoService {
         Vino vinoExistente = obtenerPorId(id);
 
         // Actualizar los campos
-        vinoExistente.setAñada(vinoActualizado.getAñada());
+        vinoExistente.setAniada(vinoActualizado.getAniada());
         vinoExistente.setFechaActualizacion(vinoActualizado.getFechaActualizacion());
         vinoExistente.setNombre(vinoActualizado.getNombre());
         vinoExistente.setPrecio(vinoActualizado.getPrecio());

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -51,6 +52,8 @@ public class VinoController {
     // Guardar un nuevo vino
     @PostMapping("/guardar")
     public String guardarVino(@ModelAttribute Vino vino) {
+        LocalDate fechaActualizacion = LocalDate.now();
+        vino.setFechaActualizacion(fechaActualizacion);
         vinoService.guardar(vino);
         return "redirect:/vinos";
     }

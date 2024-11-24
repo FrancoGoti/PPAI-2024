@@ -33,10 +33,10 @@ public class GestorImportacionVinoController {
          return gestorService.buscarBodegasActDisponible();
     }
 
-     @PutMapping("/{bodegaId}/vinos")
-     public void actualizarVinosBodega(@PathVariable Long bodegaId, @RequestBody List<Vino> nuevosVinos) {
-         gestorService.actualizarVinosBodega(bodegaId, nuevosVinos);
-     }
+    //  @PutMapping("/{bodegaId}/vinos")
+    //  public void actualizarVinosBodega(@PathVariable Long bodegaId, @RequestBody List<Vino> nuevosVinos) {
+    //     gestorService.actualizarVinosBodegaSel(bodegaId, nuevosVinos);
+    //  }
 
     //  @GetMapping("/{bodegaId}/enofilos")
     //  public void buscarEnofilosSuscriptos(@PathVariable Long bodegaId) {
