@@ -87,7 +87,7 @@ public class BodegaService {
 
     public void quitarVino(Bodega bodega, Vino vino) {
         bodega.getVinosBodega().remove(vino);
-        guardar(bodega); // Persistir los cambios.
+        bodegaRepository.save(bodega); // Persistir los cambios.
     }
 
 }

@@ -27,7 +27,8 @@
     </div>
 
     <div class="fila flex-center">
-        <a th:href="@{/bodega/vinosDeBodega/nuevo}" class="btn-agregar">Agregar Vino</a>
+        <a th:href="@{/vinosDeBodega/nuevo/{id}(id=${bodega.id})}" class="btn-agregar">Agregar Vino</a>
+        <a th:href="@{/vinosDeBodega/editar/{id}(id=${bodega.id})}" class="btn-eliminar m-l">Quitar de Bodega</a>
     </div>
 
     <div class="fila flex-center">
@@ -35,13 +36,13 @@
             <table>
                 <thead>
                     <tr>
+                    <th>Id</th>
                     <th>Nombre</th>
-                    <th>Historia</th>
-                    <th>FechaActualizacion</th>
-                    <th>PeriodoActualizacion</th>
-                    <th>Coordenadas</th>
-                    <th>Descripcion</th>
-                    <th>Acciones</th>
+                    <th>Añada</th>
+                    <th>Precio</th>
+                    <th>NotaDeCata</th>
+                    <th>Varietal</th>
+                    <th>Maridaje</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -53,9 +54,6 @@
                     <td th:text="${vino.notaDeCataBodega}">NotaDeCata</td>
                     <td th:text="${vino.varietal.descripcion}">Varietal</td>
                     <td th:text="${vino.maridaje.nombre}">Maridaje</td>
-                    <td>
-                        <a href="#" class="btn-eliminar">Quitar de Bodega</a>
-                    </td>
                 </tr>
                 </tbody>
             </table>

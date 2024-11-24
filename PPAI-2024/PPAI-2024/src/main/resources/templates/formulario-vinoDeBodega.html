@@ -12,37 +12,51 @@
 <div class="hero">
     <div class="fila flex-center">
         <div class="caja-barra-busqueda-card">
+            <div class="fila flex-column-center">
+                <!-- Formulario para agregar un nuevo vino -->
+                <div th:if="${modo eq 'nuevo'}">
+                    <form th:action="@{/vinosDeBodega/asignar}" method="post">
+                        
+                        <div>
+                            <h2>Asignar Vino a Bodega</h2>
+                        </div>
+                        
+                        <!-- ID de la bodega -->
+                        <input type="hidden" name="bodegaId" th:value="${bodega.id}" />
+                        <input type="hidden" name="modo" value="nuevo" />
+                        
+                        <div class="m-t">
+                            <label for="vinoId">Seleccione un vino:</label>
+                            <!-- Selección de vinos disponibles -->
+                             <div class="flex-around m-t">
+                                 <select name="vinoId" id="vinoId" required>
+                                     <option value="" disabled selected>Seleccione un vino</option>
+                                     <option th:each="vino : ${vinos}" th:value="${vino.id}" th:text="${vino.nombre}"></option>
+                                 </select>
+                             </div>
+                        </div>
 
-            <!-- Formulario para agregar un nuevo vino -->
-            <div th:if="${modo == 'nuevo'}">
-                <form th:action="@{/vinosDeBodega/asignar}" method="post">
-                    <!-- ID de la bodega -->
-                    <input type="hidden" name="bodegaId" th:value="${bodega.id}" />
-                    
-                    <!-- Selección de vinos disponibles -->
-                    <select name="vinoId">
-                        <option value="" disabled selected>Seleccione un vino</option>
-                        <option th:each="vino : ${todosLosVinos}" th:value="${vino.id}" th:text="${vino.nombre}"></option>
-                    </select>
-                    
-                    <button type="submit">Asignar Vino</button>
-                </form>
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-editar-card" value="Asignar"/>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Formulario para quitar un vino existente -->
+                <div th:if="${modo == 'editar'}">
+                    <form th:action="@{/vinosDeBodega/quitar}" method="post">
+                        <!-- ID de la bodega -->
+                        <input type="hidden" name="bodegaId" th:value="${bodega.id}" />
+                        
+                        <!-- Selección de vinos asignados a la bodega -->
+                        <select name="vinoId" required>
+                            <option value="" disabled selected>Seleccione un vino</option>
+                            <option th:each="vino : ${vinos}" th:value="${vino.id}" th:text="${vino.nombre}"></option>
+                        </select>
+                        <button type="submit">Quitar Vino</button>
+                    </form>
+                </div>
+
             </div>
-
-            <!-- Formulario para quitar un vino existente -->
-            <div th:if="${modo == 'editar'}">
-                <form th:action="@{/vinosDeBodega/quitar}" method="post">
-                    <!-- ID de la bodega -->
-                    <input type="hidden" name="bodegaId" th:value="${bodega.id}" />
-                    
-                    <!-- Selección de vinos asignados a la bodega -->
-                    <select name="vinoId">
-                        <option value="" disabled selected>Seleccione un vino</option>
-                        <option th:each="vino : ${bodega.vinos}" th:value="${vino.id}" th:text="${vino.nombre}"></option>
-                    </select>
-                    <button type="submit">Quitar Vino</button>
-                </form>
-            </div>
-
         </div>
     </div>

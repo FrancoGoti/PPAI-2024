@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,16 +27,16 @@ public class Bodega implements Serializable {
 
     private String descripcion;
     
-    // @ManyToMany
-    // @JoinTable(
-    //     name = "bodega_vino",
-    //     joinColumns = @JoinColumn(name = "bodega_id"),
-    //     inverseJoinColumns = @JoinColumn(name = "vino_id")
-    // )
-    // private List<Vino> vinos = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+        name = "vino_bodega",
+        joinColumns = @JoinColumn(name = "bodega_id"),
+        inverseJoinColumns = @JoinColumn(name = "vino_id")
+    )
+    private List<Vino> vinos = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "bodegas")
-    private List<Vino> vinos;
+    // @ManyToMany(mappedBy = "bodegas")
+    // private List<Vino> vinos;
 
     // @OneToMany(cascade = CascadeType.ALL, mappedBy = "bodega", orphanRemoval = true)
     // private List<Vino> vinosBodega = new ArrayList<>();

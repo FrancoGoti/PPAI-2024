@@ -25,33 +25,67 @@ public class VinosDeBodegaController {
     }
 
     // Método para listar vinos por bodega
+    // @GetMapping("/{bodegaId}/vinos")
+    // public String listarVinos(@PathVariable Long bodegaId, Model model) {
+    //     List<Vino> vinos = vinoService.getVinosByBodega(bodegaId);
+    //     model.addAttribute("vinos", vinos);
+    //     return "vinosDeBodega";
+    // }
+
     @GetMapping("/{bodegaId}/vinos")
     public String listarVinos(@PathVariable Long bodegaId, Model model) {
         List<Vino> vinos = vinoService.getVinosByBodega(bodegaId);
+        System.out.println("Vinos encontrados: " + vinos.size());
+        vinos.forEach(v -> System.out.println(v.getNombre()));
         model.addAttribute("vinos", vinos);
-        return "vinosPorBodega";
+        model.addAttribute("bodega", bodegaService.obtenerPorId(bodegaId));
+        return "vinosDeBodega";
     }
 
     // Método para mostrar el formulario de vinos de una bodega
     @GetMapping
-    public String mostrarFormulario(@RequestParam Long bodegaId, @RequestParam String modo, Model model) {
+    public String mostrarFormulario(@RequestParam Long bodegaId, @RequestParam(required = false) String modo, Model model) {
         Bodega bodega = bodegaService.obtenerPorId(bodegaId);
         List<Vino> vinosDeBodega = vinoService.getVinosByBodega(bodegaId);  // Aquí llamamos a getVinosByBodega
 
         model.addAttribute("bodega", bodega);
         model.addAttribute("vinosDeBodega", vinosDeBodega);  // Usamos solo los vinos de esa bodega
         model.addAttribute("modo", modo);
-        return "vinosPorBodega";
+        return "vinosDeBodega";
     }
     
-    // Método para asignar vino a una bodega
-    @PostMapping("/asignar")
-    public String asignarVinoABodega(@RequestParam Long bodegaId, @RequestParam Long vinoId) {
+    @GetMapping("/nuevo/{bodegaId}")
+    public String agregarVino(@PathVariable Long bodegaId, Model model) {
+        List<Vino> vinos = vinoService.obtenerTodos();
         Bodega bodega = bodegaService.obtenerPorId(bodegaId);
-        Vino vino = vinoService.obtenerPorId(vinoId);
+        model.addAttribute("vinos", vinos);
+        model.addAttribute("bodega", bodega);
+        model.addAttribute("modo", "nuevo");
+        return "formulario-vinoDeBodega";
+    }
 
-        bodegaService.asignarVino(bodega, vino);
-        return "redirect:/vinosDeBodega?bodegaId=" + bodegaId;
+
+    @GetMapping("/editar/{bodegaId}")
+    public String editarBodega(@PathVariable Long bodegaId, Model model) {
+        Bodega bodega = bodegaService.obtenerPorId(bodegaId);
+        List<Vino> vinos = vinoService.getVinosByBodega(bodegaId);
+        model.addAttribute("bodega", bodega);
+        model.addAttribute("vinos", vinos);
+        model.addAttribute("modo", "editar");
+        return "formulario-vinoDeBodega";
+    }
+
+    @PostMapping("/asignar")
+    public String asignarVinoABodega(@RequestParam Long bodegaId, @RequestParam Long vinoId, 
+                                 @RequestParam(required = false) String modo) {
+    System.out.println("Bodega ID: " + bodegaId);
+    System.out.println("Vino ID: " + vinoId);
+    System.out.println("Modo: " + modo); // Este debería ser null
+    Bodega bodega = bodegaService.obtenerPorId(bodegaId);
+    Vino vino = vinoService.obtenerPorId(vinoId);
+
+    bodegaService.asignarVino(bodega, vino);
+    return "redirect:/bodegas/vinosDeBodega/" + bodegaId;
     }
 
     // Método para quitar vino de una bodega
@@ -61,6 +95,6 @@ public class VinosDeBodegaController {
         Vino vino = vinoService.obtenerPorId(vinoId);
 
         bodegaService.quitarVino(bodega, vino);
-        return "redirect:/vinosDeBodega?bodegaId=" + bodegaId;
+        return "redirect:/bodegas/vinosDeBodega/" + bodegaId;
     }
 }
