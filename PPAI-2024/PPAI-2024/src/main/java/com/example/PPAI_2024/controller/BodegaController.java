@@ -3,7 +3,6 @@ package com.example.PPAI_2024.controller;
 import com.example.PPAI_2024.entity.Bodega;
 import com.example.PPAI_2024.entity.Vino;
 import com.example.PPAI_2024.service.BodegaService;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,7 @@ import java.util.List;
 public class BodegaController {
 
     private final BodegaService bodegaService;
-
+    
     public BodegaController(BodegaService bodegaService) {
         this.bodegaService = bodegaService;
     }
@@ -62,7 +61,14 @@ public class BodegaController {
         return "redirect:/bodegas";
     }
 
-
+    @GetMapping("/vinosDeBodega/{id}")
+    public String listarVinosDeBodega(@PathVariable("id") Long id, Model model) {
+        Bodega bodega = bodegaService.obtenerPorId(id);
+        
+        model.addAttribute("bodega", bodega);
+        model.addAttribute("vinos", bodegaService.obtenerVinosPorBodega(bodega));
+        return "vinosDeBodega";
+    }
 
 
     @GetMapping("/{id}/actualizacion-disponible")

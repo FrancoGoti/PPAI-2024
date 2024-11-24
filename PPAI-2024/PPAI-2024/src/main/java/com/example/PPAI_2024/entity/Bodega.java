@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,9 +26,19 @@ public class Bodega implements Serializable {
 
     private String descripcion;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bodega", orphanRemoval = true)
-    private List<Vino> vinosBodega = new ArrayList<>();
-    // @OneToMany(mappedBy = "bodega", orphanRemoval = true)
+    // @ManyToMany
+    // @JoinTable(
+    //     name = "bodega_vino",
+    //     joinColumns = @JoinColumn(name = "bodega_id"),
+    //     inverseJoinColumns = @JoinColumn(name = "vino_id")
+    // )
+    // private List<Vino> vinos = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "bodegas")
+    private List<Vino> vinos;
+
+    // @OneToMany(cascade = CascadeType.ALL, mappedBy = "bodega", orphanRemoval = true)
+    // private List<Vino> vinosBodega = new ArrayList<>();
 
     // Constructor vacío requerido por JPA
     public Bodega() {
@@ -44,7 +53,7 @@ public class Bodega implements Serializable {
         this.periodoActualizacion = periodoActualizacion;
         this.coordenadas = coordenadas;
         this.descripcion = descripcion;
-        this.vinosBodega = vinosBodega;
+        this.vinos = vinosBodega;
     }
 
     // Getters y setters
@@ -105,11 +114,11 @@ public class Bodega implements Serializable {
     }
 
     public List<Vino> getVinosBodega() {
-        return vinosBodega;
+        return vinos;
     }
 
     public void setVinosBodega(List<Vino> vinosBodega) {
-        this.vinosBodega = vinosBodega;
+        this.vinos = vinosBodega;
     }
 
     @Override

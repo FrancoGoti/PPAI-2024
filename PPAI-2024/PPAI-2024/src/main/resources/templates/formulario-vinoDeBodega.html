@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Vinos de Bodega</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+
+<body>
+
+<div class="hero">
+    <div class="fila flex-center">
+        <div class="caja-barra-busqueda-card">
+
+            <!-- Formulario para agregar un nuevo vino -->
+            <div th:if="${modo == 'nuevo'}">
+                <form th:action="@{/vinosDeBodega/asignar}" method="post">
+                    <!-- ID de la bodega -->
+                    <input type="hidden" name="bodegaId" th:value="${bodega.id}" />
+                    
+                    <!-- Selección de vinos disponibles -->
+                    <select name="vinoId">
+                        <option value="" disabled selected>Seleccione un vino</option>
+                        <option th:each="vino : ${todosLosVinos}" th:value="${vino.id}" th:text="${vino.nombre}"></option>
+                    </select>
+                    
+                    <button type="submit">Asignar Vino</button>
+                </form>
+            </div>
+
+            <!-- Formulario para quitar un vino existente -->
+            <div th:if="${modo == 'editar'}">
+                <form th:action="@{/vinosDeBodega/quitar}" method="post">
+                    <!-- ID de la bodega -->
+                    <input type="hidden" name="bodegaId" th:value="${bodega.id}" />
+                    
+                    <!-- Selección de vinos asignados a la bodega -->
+                    <select name="vinoId">
+                        <option value="" disabled selected>Seleccione un vino</option>
+                        <option th:each="vino : ${bodega.vinos}" th:value="${vino.id}" th:text="${vino.nombre}"></option>
+                    </select>
+                    <button type="submit">Quitar Vino</button>
+                </form>
+            </div>
+
+        </div>
+    </div>

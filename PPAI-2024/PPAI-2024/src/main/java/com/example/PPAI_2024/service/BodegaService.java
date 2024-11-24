@@ -75,5 +75,20 @@ public class BodegaService {
         }
         bodegaRepository.deleteById(id);
     }
+
+    public List<Vino> obtenerVinosPorBodega(Bodega bodega){
+        return bodegaRepository.findVinosByBodegaId(bodega.getId());
+    }
+
+    public void asignarVino(Bodega bodega, Vino vino) {
+        bodega.getVinosBodega().add(vino); // Asegúrate de que `vinos` sea una lista o colección en Bodega.
+        guardar(bodega); // Persistir los cambios.
+    }
+
+    public void quitarVino(Bodega bodega, Vino vino) {
+        bodega.getVinosBodega().remove(vino);
+        guardar(bodega); // Persistir los cambios.
+    }
+
 }
 

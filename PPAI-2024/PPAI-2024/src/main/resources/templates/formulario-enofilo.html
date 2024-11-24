@@ -38,9 +38,9 @@
                             <select id="seguido" name="seguido" class="buscador-card" th:field="*{seguido}" required>
                                 <option value="" disabled selected>Selecciona una bodega</option>
                                 <option th:each="seguido : ${seguidos}"
-                                        th:value="${seguido.id}"
+                                        th:value="${seguido.bodega.id}"
                                         th:text="${seguido.bodega.nombre}"
-                                        th:selected="${enofilo.seguido != null and enofilo.seguido.id == seguido.id}">
+                                        th:selected="${enofilo.seguido != null and enofilo.seguido.id == seguido.bodega.id}">
                                 </option>
                             </select>
                         </div>

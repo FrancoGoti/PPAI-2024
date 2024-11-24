@@ -55,4 +55,9 @@ public class VinoService {
         }
         vinoRepository.deleteById(id);
     }
+
+    public List<Vino> getVinosByBodega(Long bodegaId) {
+        return vinoRepository.findByBodegas_Id(bodegaId);
+    }
+
 }

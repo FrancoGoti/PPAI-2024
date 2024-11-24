@@ -11,9 +11,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VinoRepository extends JpaRepository<Vino, Long> {
 
-    List<Vino> findVinosByBodegaId(Long bodegaId);
+    // List<Vino> findVinosByBodegaId(Long bodegaId);
+    List<Vino> findByBodegas(Bodega bodega);
+
+    // public List<Vino> findVinosByBodega(Bodega bodega);
     
-    List<Vino> findVinosByBodega(Bodega bodega);
-    
-    
+    List<Vino> findByBodegas_Id(Long bodegaId);
 }

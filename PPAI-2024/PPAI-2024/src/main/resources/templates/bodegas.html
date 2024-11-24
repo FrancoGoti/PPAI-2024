@@ -42,7 +42,7 @@
                     <th>PeriodoActualizacion</th>
                     <th>Coordenadas</th>
                     <th>Descripcion</th>
-                    <th>Vinos</th>
+                    <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -57,6 +57,7 @@
                     <!-- <td th:text="${bodega.descripcion}">Varietal</td> Completar con un boton para ir a la parte de vinos bodega -->
                     
                     <td>
+                        <a th:href="@{/bodegas/vinosDeBodega/{id}(id=${bodega.id})}" class="btn-ver-eliminadas">Vinos</a>
                         <a th:href="@{/bodegas/editar/{id}(id=${bodega.id})}" class="btn-editar">Editar</a>
                         <a th:href="@{/bodegas/eliminar/{id}(id=${bodega.id})}" class="btn-eliminar">Eliminar</a>
                     </td>

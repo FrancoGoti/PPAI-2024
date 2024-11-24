@@ -23,11 +23,11 @@
 
 <div class="hero">
     <div class="fila flex-center">
-        <h2>Listado de Vinos</h2>
+        <h2>Vinos en la Bodega</h2>
     </div>
 
     <div class="fila flex-center">
-        <a th:href="@{/bodega/nuevo}" class="btn-agregar">Agregar Bodega</a>
+        <a th:href="@{/bodega/vinosDeBodega/nuevo}" class="btn-agregar">Agregar Vino</a>
     </div>
 
     <div class="fila flex-center">
@@ -35,14 +35,13 @@
             <table>
                 <thead>
                     <tr>
-                    <th>ID</th>
                     <th>Nombre</th>
                     <th>Historia</th>
                     <th>FechaActualizacion</th>
                     <th>PeriodoActualizacion</th>
                     <th>Coordenadas</th>
                     <th>Descripcion</th>
-                    <th>Vinos</th>
+                    <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -55,8 +54,7 @@
                     <td th:text="${vino.varietal.descripcion}">Varietal</td>
                     <td th:text="${vino.maridaje.nombre}">Maridaje</td>
                     <td>
-                        <a th:href="@{/vinos/editar/{id}(id=${vino.id})}" class="btn-editar">Editar</a>
-                        <a th:href="@{/vinos/eliminar/{id}(id=${vino.id})}" class="btn-eliminar">Eliminar</a>
+                        <a href="#" class="btn-eliminar">Quitar de Bodega</a>
                     </td>
                 </tr>
                 </tbody>

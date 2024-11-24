@@ -51,7 +51,7 @@ public class GestorImportacionVinoController {
 
     
       public List<Vino> obtenerResumenVinosActualizados(Long bodegaId) {
-         return vinoRepository.findVinosByBodegaId(bodegaId);
+         return vinoRepository.findByBodegas_Id(bodegaId);
 
 }
 

@@ -3,6 +3,7 @@ package com.example.PPAI_2024.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -33,9 +34,13 @@ public class Vino {
     @JoinColumn(name = "varietal_id")
     private Varietal varietal;
 
-    @ManyToOne
-    @JoinColumn(name = "bodega_id")
-    private Bodega bodega;
+    @ManyToMany
+    @JoinTable(
+        name = "vino_bodega",  // Nombre de la tabla intermedia
+        joinColumns = @JoinColumn(name = "vino_id"),  // Clave foránea que referencia al vino
+        inverseJoinColumns = @JoinColumn(name = "bodega_id")  // Clave foránea que referencia a la bodega
+    )
+    private List<Bodega> bodegas;
 
     // Constructor vacío requerido por JPA
     public Vino() {
@@ -117,12 +122,12 @@ public class Vino {
         this.varietal = varietal;
     }
 
-    public Bodega getBodega() {
-        return bodega;
+    public List<Bodega> getBodega() {
+        return bodegas;
     }
 
-    public void setBodega(Bodega bodega) {
-        this.bodega = bodega;
+    public void setBodegas(List<Bodega> bodegas) {
+        this.bodegas = bodegas;
     }
 
     @Override
@@ -137,4 +142,5 @@ public class Vino {
     public int hashCode() {
         return Objects.hash(nombre);
     }
+
 }

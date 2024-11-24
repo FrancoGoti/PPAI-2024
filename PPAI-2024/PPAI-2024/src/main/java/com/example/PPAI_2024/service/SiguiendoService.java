@@ -37,4 +37,6 @@ public class SiguiendoService {
         siguiendoExistente.setBodega(siguiendoActualizado.getBodega()); // Actualizar los atributos necesarios
         return siguiendoRepository.save(siguiendoExistente);
     }
+
+    
 }

@@ -63,7 +63,7 @@ public class GestorImportacionVinoService {
     }
 
     public List<Vino> obtenerResumenVinosActualizados(Bodega bodega) {
-        return vinoRepository.findVinosByBodega(bodega);
+        return vinoRepository.findByBodegas(bodega);
     }
 
     // private LocalDate convertirDateALocalDate(Date date) {
