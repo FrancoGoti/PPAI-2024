@@ -48,12 +48,20 @@
                         <!-- ID de la bodega -->
                         <input type="hidden" name="bodegaId" th:value="${bodega.id}" />
                         
-                        <!-- Selección de vinos asignados a la bodega -->
-                        <select name="vinoId" required>
-                            <option value="" disabled selected>Seleccione un vino</option>
-                            <option th:each="vino : ${vinos}" th:value="${vino.id}" th:text="${vino.nombre}"></option>
-                        </select>
-                        <button type="submit">Quitar Vino</button>
+                        <div>
+                            <h2>Quitar Vino de Bodega</h2>
+                        </div>
+
+                        <div class="m-t">
+                            <!-- Selección de vinos asignados a la bodega -->
+                            <select name="vinoId" required>
+                                <option value="" disabled selected>Seleccione un vino</option>
+                                <option th:each="vino : ${vinos}" th:value="${vino.id}" th:text="${vino.nombre}"></option>
+                            </select>
+                        </div>
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-eliminar" value="Quitar"/>
+                        </div>
                     </form>
                 </div>
 
