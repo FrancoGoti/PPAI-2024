@@ -31,19 +31,65 @@ public class BodegaService {
     /**
      * Actualiza los datos de los vinos de la bodega.
      */
-    public void actualizarDatosVinosBodega(Bodega bodega, LocalDate fechaActual, List<Vino> actualizacionesDeBodega) {
-        bodega.setFechaActualizacion(fechaActual);
+    // public void actualizarDatosVinosBodega(Bodega bodega, LocalDate fechaActual, List<Vino> actualizacionesDeBodega) {
+    //     bodega.setFechaActualizacion(fechaActual);
     
-        for (Vino actualizacion : actualizacionesDeBodega) {
-            for (Vino vino : bodega.getVinosBodega()) {
-                if (vino.getNombre().equals(actualizacion.getNombre())) {
-                    // Asumiendo que "vino" tiene el ID que necesita el método de VinoService
-                    actualizacion.setFechaActualizacion(fechaActual); // Actualiza la fecha en el objeto "actualizacion"
-                    vinoService.actualizarDatos(vino.getId(), actualizacion);
+    //     for (Vino actualizacion : actualizacionesDeBodega) {
+    //         for (Vino vino : bodega.getVinosBodega()) {
+    //             if (vino.getNombre().equals(actualizacion.getNombre())) {
+    //                 // Asumiendo que "vino" tiene el ID que necesita el método de VinoService
+    //                 actualizacion.setFechaActualizacion(fechaActual); // Actualiza la fecha en el objeto "actualizacion"
+    //                 vinoService.actualizarDatos(vino.getId(), actualizacion);
+    //             }
+    //         }
+    //     }
+    // }
+
+
+    public void actualizarDatosVinosBodega(Bodega bodegaSeleccionada, List<Vino> vinosActualizados) {
+        LocalDate fechaActual = LocalDate.now();
+        
+        // Lógica para actualizar los vinos en memoria
+        for (int i = 0; i < vinosActualizados.size(); i++) {
+            boolean vinoEncontrado = false;
+    
+            // Iterar sobre los vinos de la bodega
+            for (int j = 0; j < bodegaSeleccionada.getVinosBodega().size(); j++) {
+                Vino vinoExistente = bodegaSeleccionada.getVinosBodega().get(j);
+                if (vinoExistente.getNombre().equals(vinosActualizados.get(i).getNombre())) {
+                    // Actualizar los datos del vino
+                    vinoExistente.actualizarDatos(
+                        vinosActualizados.get(i).getAniada(),
+                        fechaActual,
+                        vinosActualizados.get(i).getNombre(),
+                        vinosActualizados.get(i).getPrecio(),
+                        vinosActualizados.get(i).getNotaDeCataBodega(),
+                        vinosActualizados.get(i).getMaridaje(),
+                        vinosActualizados.get(i).getVarietal()
+                    );
+                    vinoEncontrado = true;
+                    break;
                 }
             }
+    
+            // Si no lo encuentras en la bodega, lo añades
+            if (!vinoEncontrado) {
+                // Guardar el vino en la base de datos si es nuevo
+                if (vinosActualizados.get(i).getId() == null) {
+                    vinoService.guardar(vinosActualizados.get(i)); // Guardar el nuevo vino
+                }
+                // Añadir el nuevo vino a la bodega
+                bodegaSeleccionada.getVinosBodega().add(vinosActualizados.get(i));  
+            }
+        }
+    
+        // Persistir los cambios de vinos en la base de datos
+        for (Vino vino : bodegaSeleccionada.getVinosBodega()) {
+            vinoService.actualizarVino(vino);  // Persistir el vino
         }
     }
+
+
 
     
     public List<Bodega> obtenerBodegas(){

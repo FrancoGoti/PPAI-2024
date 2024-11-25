@@ -88,7 +88,7 @@ public class BodegaController {
             @RequestBody List<Vino> actualizacionesDeBodega) {
         // Aquí deberías obtener la bodega desde el repositorio (omitido por simplicidad)
         Bodega bodega = obtenerBodegaPorId(id);
-        bodegaService.actualizarDatosVinosBodega(bodega, fechaActual, actualizacionesDeBodega);
+        bodegaService.actualizarDatosVinosBodega(bodega, actualizacionesDeBodega);
     }
 
     // Método simulado para obtener la bodega por ID

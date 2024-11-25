@@ -10,7 +10,7 @@ public class Varietal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST) 
     @JoinColumn(name = "tipo_uva_id", nullable = false) // Relación con TipoUva
     private TipoUva tipoUva;
 
