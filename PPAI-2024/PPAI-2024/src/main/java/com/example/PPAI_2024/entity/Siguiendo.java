@@ -29,7 +29,7 @@ public class Siguiendo {
         this.bodega = bodega;
     }
 
-    public boolean sosBodega(Bodega bodegaSeleccionada) {
+    public boolean sosDeBodegaSel(Bodega bodegaSeleccionada) {
         return bodegaSeleccionada.equals(this.bodega);
     }
 }

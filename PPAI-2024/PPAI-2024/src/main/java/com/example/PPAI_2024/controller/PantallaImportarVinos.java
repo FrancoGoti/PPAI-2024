@@ -1,12 +1,10 @@
 package com.example.PPAI_2024.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.example.PPAI_2024.entity.Bodega;
 import com.example.PPAI_2024.entity.Vino;
 import com.example.PPAI_2024.service.BodegaService;
@@ -51,6 +49,8 @@ public class PantallaImportarVinos {
         gestor.actualizarVinosBodegaSel(bodegaSeleccionada, vinosActualizados);
         List<Vino> vinos = bodegaService.obtenerVinosPorBodega(bodegaSeleccionada);
         model.addAttribute("vinos", vinos);
+
+        gestor.buscarEnofilosSuscriptos(bodegaSeleccionada);
         return "pantalla-importar-vinos"; // Página que muestra los vinos actualizados
     }
 

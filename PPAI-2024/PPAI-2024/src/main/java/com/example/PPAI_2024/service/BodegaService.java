@@ -90,6 +90,6 @@ public class BodegaService {
         bodega.getVinosBodega().remove(vino);
         bodegaRepository.save(bodega); // Persistir los cambios.
     }
-
+ 
 }
 

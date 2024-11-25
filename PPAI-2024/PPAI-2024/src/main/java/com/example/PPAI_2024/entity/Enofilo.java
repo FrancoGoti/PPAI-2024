@@ -84,8 +84,8 @@ public class Enofilo {
     }
 
     // Métodos adicionales
-    public boolean esSeguidorBodegaSel(Bodega bodegaSeleccionada) {
-        return seguido != null && seguido.sosBodega(bodegaSeleccionada);
+    public boolean esSeguidorBodega(Bodega bodegaSeleccionada) {
+        return seguido != null && seguido.sosDeBodegaSel(bodegaSeleccionada);
     }
 
     @Override
