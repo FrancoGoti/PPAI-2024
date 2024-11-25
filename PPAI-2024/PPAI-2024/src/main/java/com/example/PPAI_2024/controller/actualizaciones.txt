@@ -1,0 +1,35 @@
+
+    DATOS PARA CREAR VINOS PARA LOS CASOS DE PRUEBA
+
+        //Se crean tipos de uva para el caso
+        TipoUva uva1 = new TipoUva("Cabernet Sauvignon", "clasico y estructurado");
+        TipoUva uva2 = new TipoUva("Mencia", "fresca y afrutada");
+        TipoUva uva3 = new TipoUva("PetitVerdot", "concentrado y potente");
+        TipoUva uva4 = new TipoUva("Tempranillo", "elegante y versatil");
+
+        //Se crean varietales para el caso de uso
+        Varietal varietal1 = new Varietal("Variedad de Sauvignon", 80, uva1);
+        Varietal varietal2 = new Varietal("Variedad de Mencia", 83, uva2);
+        Varietal varietal3 = new Varietal("Variedad de PetitVerdot", 76, uva3);
+        Varietal varietal4 = new Varietal("Variedad de Tempranillo", 89, uva4);
+
+        //Se crean maridajes para el caso de uso
+        Maridaje maridaje1 = new Maridaje("Bife de chorizo", "Para acompanar Cabernet Sauvignon");
+        Maridaje maridaje2 = new Maridaje("Sorrentinos de salmon", "Para acompanar Mencia");
+        Maridaje maridaje3 = new Maridaje("Cordero al horno", "Para acompanar PetitVerdot");
+        Maridaje maridaje4 = new Maridaje("Salmon rosado", "Para acompanar Tempranillo");
+
+        //Se crean los distintos vinos existentes en las bodegas
+        Vino vino1 = new Vino(1998, fecha1, "Malbec1", "Suave", 20500, maridaje1, varietal1);
+        Vino vino2 = new Vino(2000, fecha1, "Patito1", "Dulce", 22500, maridaje2, varietal2);
+        Vino vino3 = new Vino(2002, fecha2, "Patito2", "Fuerte", 22500, maridaje3, varietal3);
+        Vino vino4 = new Vino(2004, fecha2, "LasPerdices", "Amargo", 90500, maridaje4, varietal4);
+        Vino vino5 = new Vino(2006, fecha3, "LasPerdices2", "Suave", 20000, maridaje1, varietal1);
+        Vino vino6 = new Vino(2008, fecha3, "VinaBalbo", "Dulce", 4000, maridaje2, varietal2);
+        Vino vino7 = new Vino(2010, fecha4, "SantaJulia", "Fuerte", 5500, maridaje3, varietal3);
+        Vino vino8 = new Vino(2012, fecha4, "Toro", "Suave", 2000, maridaje4, varietal4);
+        Vino vino9 = new Vino(2014, fecha5, "Termidor", "Dulce", 2900, maridaje1, varietal1);
+
+
+
+

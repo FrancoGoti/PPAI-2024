@@ -1,74 +1,107 @@
+package com.example.PPAI_2024.service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.PPAI_2024.entity.Bodega;
+import com.example.PPAI_2024.entity.Enofilo;
+import com.example.PPAI_2024.entity.Usuario;
+import com.example.PPAI_2024.entity.Vino;
+import com.example.PPAI_2024.entity.VinoApiService;
+import com.example.PPAI_2024.patron_observer.IObservadorNotificacionNovedades;
+import com.example.PPAI_2024.patron_observer.InterfazNotificacionApp;
+import com.example.PPAI_2024.repository.BodegaRepository;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
 
 @Service
 public class GestorImportacionVinoService {
 
-     @Autowired
+    @Autowired
     private BodegaRepository bodegaRepository;
 
     @Autowired
-    private EnofiloRepository enofiloRepository;
+    private EnofiloService enofiloService;
+    
+    public InterfazNotificacionApp interfazNotificacionApp;
 
     @Autowired
-    private VinoRepository vinoRepository;
+    private VinoApiService vinoApiService;
+    // @Autowired
+    // private EnofiloRepository enofiloRepository;
+
+    private List<Usuario> usuariosEnofilosSuscriptos = new ArrayList<>();
 
     public GestorImportacionVinoService(BodegaRepository bodegaRepository) {
         this.bodegaRepository = bodegaRepository;
     }
 
-    /**
-     * Buscar las bodegas con actualizaciones disponibles.
-     */
-    public List<Bodega> buscarBodegasActDisponible() {
-        Date fechaActual = buscarFechaActual();
-        List<Bodega> bodegas = bodegaRepository.findAll();
-
-        List<Bodega> bodegasConActDisponible = bodegas.stream()
-            .filter(b -> b.tieneActualizacionDisponible(
-                b.getFechaActualizacion().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                fechaActual.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()))
-            .toList();
-
-        return bodegasConActDisponible;
+    public List<Bodega> importarActualizacionVinoBodega(){
+        return buscarBodegasActDisponible();
     }
 
-    public void actualizarVinosBodega(Long bodegaId, List<Vino> nuevosVinos) {
-        Bodega bodega = bodegaRepository.findById(bodegaId)
-            .orElseThrow(() -> new RuntimeException("Bodega no encontrada"));
+    public List<Bodega> buscarBodegasActDisponible() {
+        LocalDate fechaActual = buscarFechaActual();
+        List<Bodega> bodegas = bodegaRepository.findAll();
+    
+        return bodegas.stream()
+            .filter(b -> b.tieneActualizacionDisponible(b.getFechaActualizacion(), fechaActual))
+            .toList();
+    }
 
-        bodega.setVinos(nuevosVinos);
-        bodegaRepository.save(bodega);
+    public List<Vino> obtenerActualizacionesBodegaSel(Bodega bodegaSeleccionada){
+        return vinoApiService.obtenerActualizaciones();
+    }
+
+    public void actualizarVinosBodegaSel(Bodega bodegaSeleccionada, List<Vino> vinosActualizados){
+        bodegaSeleccionada.actualizarDatosVinosBodega(bodegaSeleccionada, vinosActualizados);
+
+    }
+    
+
+    public LocalDate buscarFechaActual() {
+        return LocalDate.now();
+    }
+
+    public String tomarSelBodega(Bodega bodegaSeleccionada) {
+        System.out.println("Bodega seleccionada: " + bodegaSeleccionada);
+        return bodegaSeleccionada.getNombre();
+    }
+
+    public List<Vino> obtenerResumenVinosActualizados(Bodega bodega) {
+        return bodegaRepository.findVinosByBodegaId(bodega.getId());
+    }
+
+    public List<Usuario> buscarEnofilosSuscriptos(Bodega bodegaSeleccionada){
+        List<Enofilo> enofilos = enofiloService.listarTodos();
+        for (Enofilo enofilo : enofilos) {
+            if (enofilo.esSeguidorBodega(bodegaSeleccionada)) {
+                usuariosEnofilosSuscriptos.add(enofilo.getUsuario());
+                System.out.println(enofilo.getUsuario().getNombre());
+            }
+        }
+
+        InterfazNotificacionApp interfazNotificacionApp = new InterfazNotificacionApp();
+        suscribir(interfazNotificacionApp);
+        notificar(bodegaSeleccionada, usuariosEnofilosSuscriptos);
+        
+        return usuariosEnofilosSuscriptos;
+    }
+      
+    public void notificar(Bodega bodegaSeleccionada, List<Usuario> enofilosSuscriptos) {
+       interfazNotificacionApp.actualizar(bodegaSeleccionada, enofilosSuscriptos);
+    }
+
+        
+    public void suscribir(IObservadorNotificacionNovedades observador) {
+        this.interfazNotificacionApp = (InterfazNotificacionApp) observador;
     }
 
     
-    public void buscarEnofilosSuscriptos(Long bodegaId) {
-        List<Enofilo> enofilos = enofiloRepository.findByBodegaId(bodegaId);
-        // Lógica para notificar a los enófilos...
+    public void quitar(IObservadorNotificacionNovedades observador) {
+        
     }
+  
 
-    public Date buscarFechaActual() {
-        return new Date();
-    }
-
-    /**
-     * Setear la bodega seleccionada (caso de uso futuro).
-     */
-    public void tomarSelBodega(String bodegaSeleccionada) {
-        // Lógica de selección podría ser almacenada o procesada aquí
-        System.out.println("Bodega seleccionada: " + bodegaSeleccionada);
-    }
-
-    /**
-     * Buscar la fecha actual.
-     */
-    public Date buscarFechaActual() {
-        return new Date();
-    }
 }

@@ -3,21 +3,73 @@ package com.example.PPAI_2024.controller;
 import com.example.PPAI_2024.entity.Bodega;
 import com.example.PPAI_2024.entity.Vino;
 import com.example.PPAI_2024.service.BodegaService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/bodegas")
 public class BodegaController {
 
     private final BodegaService bodegaService;
-
+    
     public BodegaController(BodegaService bodegaService) {
         this.bodegaService = bodegaService;
     }
+
+    @GetMapping
+    public String listarBodegas(Model model) {
+        List<Bodega> bodegas = bodegaService.obtenerBodegas();
+        model.addAttribute("bodegas", bodegas);
+        return "bodegas";
+    }
+
+    @GetMapping("/nuevo")
+    public String nuevaBodega(Model model) {
+        Bodega nuevaBodega = new Bodega();
+        model.addAttribute("bodega", nuevaBodega);
+        model.addAttribute("modo", "nuevo");
+        return "formulario-bodega";
+    }
+
+    @PostMapping("/guardar")
+    public String guardarVino(@ModelAttribute Bodega bodega) {
+        bodegaService.guardar(bodega);
+        return "redirect:/bodegas";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String editarBodega(@PathVariable Long id, Model model) {
+        Bodega bodega = bodegaService.obtenerPorId(id);
+        model.addAttribute("bodega", bodega);
+        model.addAttribute("modo", "editar");
+        return "formulario-bodega";
+    }
+
+    @PostMapping("/actualizar/{id}")
+    public String actualizarBodega(@PathVariable Long id, @ModelAttribute Bodega bodega) {
+        bodegaService.actualizarDatos(id, bodega);
+        return "redirect:/bodegas";
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminarBodega(@PathVariable Long id) {
+        bodegaService.eliminar(id);
+        return "redirect:/bodegas";
+    }
+
+    @GetMapping("/vinosDeBodega/{id}")
+    public String listarVinosDeBodega(@PathVariable("id") Long id, Model model) {
+        Bodega bodega = bodegaService.obtenerPorId(id);
+        
+        model.addAttribute("bodega", bodega);
+        model.addAttribute("vinos", bodegaService.obtenerVinosPorBodega(bodega));
+        return "vinosDeBodega";
+    }
+
 
     @GetMapping("/{id}/actualizacion-disponible")
     public boolean verificarActualizacion(
@@ -32,7 +84,7 @@ public class BodegaController {
     @PostMapping("/{id}/actualizar-vinos")
     public void actualizarVinos(
             @PathVariable Long id,
-            @RequestParam Date fechaActual,
+            @RequestParam LocalDate fechaActual,
             @RequestBody List<Vino> actualizacionesDeBodega) {
         // Aquí deberías obtener la bodega desde el repositorio (omitido por simplicidad)
         Bodega bodega = obtenerBodegaPorId(id);

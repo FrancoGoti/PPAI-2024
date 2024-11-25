@@ -1,12 +1,16 @@
 package com.example.PPAI_2024.entity;
 
 import jakarta.persistence.*;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+
 @Entity
-public class Bodega {
+public class Bodega implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,28 +18,36 @@ public class Bodega {
 
     private String nombre;
 
-    @Column(length = 500)
     private String historia;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaActualizacion;
-
+    
+    private LocalDate fechaActualizacion;
+    
     private int periodoActualizacion;
 
     private String coordenadas;
 
-    @Column(length = 1000)
     private String descripcion;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "vino_bodega",
+        joinColumns = @JoinColumn(name = "bodega_id"),
+        inverseJoinColumns = @JoinColumn(name = "vino_id")
+    )
+    private List<Vino> vinos = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bodega", orphanRemoval = true)
-    private List<Vino> vinosBodega = new ArrayList<>();
+    // @ManyToMany(mappedBy = "bodegas")
+    // private List<Vino> vinos;
+
+    // @OneToMany(cascade = CascadeType.ALL, mappedBy = "bodega", orphanRemoval = true)
+    // private List<Vino> vinosBodega = new ArrayList<>();
 
     // Constructor vacío requerido por JPA
     public Bodega() {
     }
 
     // Constructor completo
-    public Bodega(String nombre, String historia, Date fechaActualizacion, int periodoActualizacion, 
+    public Bodega(String nombre, String historia, LocalDate fechaActualizacion, int periodoActualizacion, 
                   String coordenadas, String descripcion, List<Vino> vinosBodega) {
         this.nombre = nombre;
         this.historia = historia;
@@ -43,7 +55,7 @@ public class Bodega {
         this.periodoActualizacion = periodoActualizacion;
         this.coordenadas = coordenadas;
         this.descripcion = descripcion;
-        this.vinosBodega = vinosBodega;
+        this.vinos = vinosBodega;
     }
 
     // Getters y setters
@@ -71,11 +83,11 @@ public class Bodega {
         this.historia = historia;
     }
 
-    public Date getFechaActualizacion() {
+    public LocalDate getFechaActualizacion() {
         return fechaActualizacion;
     }
 
-    public void setFechaActualizacion(Date fechaActualizacion) {
+    public void setFechaActualizacion(LocalDate fechaActualizacion) {
         this.fechaActualizacion = fechaActualizacion;
     }
 
@@ -104,15 +116,55 @@ public class Bodega {
     }
 
     public List<Vino> getVinosBodega() {
-        return vinosBodega;
+        return vinos;
     }
 
     public void setVinosBodega(List<Vino> vinosBodega) {
-        this.vinosBodega = vinosBodega;
+        this.vinos = vinosBodega;
     }
 
     @Override
     public String toString() {
         return nombre;
     }
+
+    public boolean tieneActualizacionDisponible(LocalDate fechaActualizacion, LocalDate fechaActual) {
+         long diferenciaFechas = ChronoUnit.MONTHS.between(fechaActualizacion, fechaActual);
+        if (diferenciaFechas > periodoActualizacion){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public void actualizarDatosVinosBodega(Bodega bodegaSeleccionada, List<Vino> vinosActualizados){
+            LocalDate fechaActual = LocalDate.now();
+            this.setFechaActualizacion(fechaActual);
+                    
+            for (int i = 0; i < vinosActualizados.size(); i++){
+                for (int j = 0; j < vinos.size(); j++){
+                    if (vinos.get(j).getNombre().equals(vinosActualizados.get(i).getNombre())){
+                        LocalDate fechaActualizacion = fechaActual;
+                        int añada = vinosActualizados.get(i).getAniada();
+                        String nombre = vinosActualizados.get(i).getNombre();
+                        float precio = vinosActualizados.get(i).getPrecio();
+                        String notaDeCataBodega = vinosActualizados.get(i).getNotaDeCataBodega();
+                        Maridaje maridaje = vinosActualizados.get(i).getMaridaje();
+                        Varietal varietal = vinosActualizados.get(i).getVarietal();
+    
+                        vinos.get(j).actualizarDatos(añada, fechaActualizacion, nombre, precio, notaDeCataBodega, maridaje, varietal);
+                        //break; // salir del bucle interno cuando se encuentra el vino correspondiente
+                    }
+                    else{
+                        vinos.add(vinosActualizados.get(i));
+                    }
+                }
+            }
+        }
+   
+    
+
+
 }
+

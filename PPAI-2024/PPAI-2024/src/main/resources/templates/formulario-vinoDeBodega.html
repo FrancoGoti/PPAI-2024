@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Vinos de Bodega</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+
+<body>
+
+<div class="hero">
+    <div class="fila flex-center">
+        <div class="caja-barra-busqueda-card">
+            <div class="fila flex-column-center">
+                <!-- Formulario para agregar un nuevo vino -->
+                <div th:if="${modo eq 'nuevo'}">
+                    <form th:action="@{/vinosDeBodega/asignar}" method="post">
+                        
+                        <div>
+                            <h2>Asignar Vino a Bodega</h2>
+                        </div>
+                        
+                        <!-- ID de la bodega -->
+                        <input type="hidden" name="bodegaId" th:value="${bodega.id}" />
+                        <input type="hidden" name="modo" value="nuevo" />
+                        
+                        <div class="m-t">
+                            <label for="vinoId">Seleccione un vino:</label>
+                            <!-- Selección de vinos disponibles -->
+                             <div class="flex-around m-t">
+                                 <select name="vinoId" id="vinoId" required>
+                                     <option value="" disabled selected>Seleccione un vino</option>
+                                     <option th:each="vino : ${vinos}" th:value="${vino.id}" th:text="${vino.nombre}"></option>
+                                 </select>
+                             </div>
+                        </div>
+
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-editar-card" value="Asignar"/>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Formulario para quitar un vino existente -->
+                <div th:if="${modo == 'editar'}">
+                    <form th:action="@{/vinosDeBodega/quitar}" method="post">
+                        <!-- ID de la bodega -->
+                        <input type="hidden" name="bodegaId" th:value="${bodega.id}" />
+                        
+                        <div>
+                            <h2>Quitar Vino de Bodega</h2>
+                        </div>
+
+                        <div class="m-t">
+                            <!-- Selección de vinos asignados a la bodega -->
+                            <select name="vinoId" required>
+                                <option value="" disabled selected>Seleccione un vino</option>
+                                <option th:each="vino : ${vinos}" th:value="${vino.id}" th:text="${vino.nombre}"></option>
+                            </select>
+                        </div>
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-eliminar" value="Quitar"/>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>

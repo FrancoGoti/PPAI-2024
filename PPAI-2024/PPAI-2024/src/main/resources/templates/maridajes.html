@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Maridajes</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+<header>
+    <nav>
+        <a th:href="@{/}">Inicio</a>
+        <a th:href="@{/pantalla-importar-vinos}">Importar</a>
+        <a th:href="@{/usuarios}">Usuarios</a>
+        <a th:href="@{/vinos}">Vino</a>
+        <a th:href="@{/bodegas}">Bodega</a>
+        <a th:href="@{/enofilos}">Enofilo</a>
+        <a th:href="@{/maridajes}" class="activo">Maridaje</a>
+        <a th:href="@{/tipo-uvas}" >Tipos de Uva</a>
+        <a th:href="@{/varietal}">Varietal</a>
+        <a th:href="@{/siguiendo}">Siguiendo</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <div class="fila flex-center">
+        <h2>Maridajes</h2>
+    </div>
+
+    <div class="fila flex-center">
+        <a th:href="@{/maridajes/nuevo}" class="btn-agregar">Agregar Maridaje</a>
+    </div>
+
+    <div class="fila flex-center">
+        <div class="caja-tablas">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="maridaje : ${maridajes}">
+                    <td th:text="${maridaje.id}">ID</td>
+                    <td th:text="${maridaje.nombre}">Nombre</td>
+                    <td th:text="${maridaje.descripcion}">Descripcion</td>
+                    <td>
+                        <a th:href="@{/maridajes/editar/{id}(id=${maridaje.id})}" class="btn-editar">Editar</a>
+                        <a th:href="@{/maridajes/eliminar/{id}(id=${maridaje.id})}" class="btn-eliminar">Eliminar</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

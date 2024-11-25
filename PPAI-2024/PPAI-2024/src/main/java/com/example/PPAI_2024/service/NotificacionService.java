@@ -1,3 +1,11 @@
+package com.example.PPAI_2024.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.example.PPAI_2024.entity.Bodega;
+
 @Service
 public class NotificacionService {
 

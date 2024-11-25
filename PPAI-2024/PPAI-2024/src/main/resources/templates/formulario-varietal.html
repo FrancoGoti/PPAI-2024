@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Varietal</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+
+<body>
+
+<div class="hero">
+    <div class="fila flex-center">
+        <div class="caja-barra-busqueda-card">
+
+            <!-- Formulario para agregar un nuevo varietal -->
+            <div th:if="${modo eq 'nuevo'}">
+                <form th:action="@{/varietal/guardar}" th:object="${varietal}" method="POST">
+                    <div class="fila flex-column-center">
+                        <h2>Agregar Varietal</h2>
+
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="m-t flex-column-center">
+                            <label class="m-b-small" style="align-self: flex-start ;" for="tipoUva">Tipo de Uva</label>
+                            <select id="tipoUva" name="tipoUva" class="buscador-card" th:field="*{tipoUva}" required>
+                                <option value="" disabled selected>Selecciona un tipo de uva</option>
+                                <option th:each="tipoUva : ${tiposUva}"
+                                        th:value="${tipoUva.id}"
+                                        th:text="${tipoUva.nombre}"
+                                        th:selected="${varietal.tipoUva != null and varietal.tipoUva.id == tipoUva.id}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Descripción</label>
+                            <input class="buscador-card" type="text" th:field="*{descripcion}" required />
+                            <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Porcentaje de Composición</label>
+                            <input class="buscador-card" type="number" step="0.01" min="0" max="100" th:field="*{porcentajeComposicion}" required />
+                            <span th:if="${#fields.hasErrors('porcentajeComposicion')}" th:errors="*{porcentajeComposicion}"></span>
+                        </div>
+
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-editar-card m-t-small" value="Guardar" />
+                            <a class="btn-eliminar m-l" th:href="@{/varietal}">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Formulario para editar un varietal existente -->
+            <div th:if="${modo eq 'editar'}">
+                <form th:action="@{/varietal/actualizar/{id}(id=${varietal.id})}" th:object="${varietal}" method="POST">
+                    <div class="fila flex-column-center">
+                        <h2>Editar Varietal</h2>
+
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="m-t flex-column-center">
+                            <label class="m-b-small" style="align-self: flex-start ;" for="tipoUva">Tipo de Uva</label>
+                            <select id="tipoUva" name="tipoUva" class="buscador-card" th:field="*{tipoUva}" required>
+                                <option value="" disabled selected>Selecciona un tipo de uva</option>
+                                <option th:each="tipoUva : ${tiposUva}"
+                                        th:value="${tipoUva.id}"
+                                        th:text="${tipoUva.nombre}"
+                                        th:selected="${varietal.tipoUva != null and varietal.tipoUva.id == tipoUva.id}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Descripción</label>
+                            <input class="buscador-card" type="text" th:field="*{descripcion}" required />
+                            <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Porcentaje de Composición</label>
+                            <input class="buscador-card" type="number" step="0.01" min="0" max="100" th:field="*{porcentajeComposicion}" required />
+                            <span th:if="${#fields.hasErrors('porcentajeComposicion')}" th:errors="*{porcentajeComposicion}"></span>
+                        </div>
+
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-editar-card" value="Actualizar" />
+                            <a class="btn-eliminar m-l" th:href="@{/varietal}">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Tipo de Uva</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+
+<body>
+
+<div class="hero">
+    <div class="fila flex-center">
+        <div class="caja-barra-busqueda-card">
+
+            <!-- Formulario para agregar un nuevo tipo de uva -->
+            <div th:if="${modo eq 'nuevo'}">
+                <form th:action="@{/tipo-uvas/guardar}" th:object="${tipoUva}" method="POST">
+                    <div class="fila flex-column-center">
+                        <h2>Agregar Tipo de Uva</h2>
+
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="m-t-small">
+                            <label>Nombre</label>
+                            <input class="buscador-card" type="text" th:field="*{nombre}" required />
+                            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Descripción</label>
+                            <input class="buscador-card" type="text" th:field="*{descripcion}" required maxlength="255" />
+                            <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
+                        </div>
+
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-editar-card m-t-small" value="Guardar" />
+                            <a class="btn-eliminar m-l" th:href="@{/tipo-uvas}">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Formulario para editar un tipo de uva existente -->
+            <div th:if="${modo eq 'editar'}">
+                <form th:action="@{/tipo-uvas/actualizar/{id}(id=${tipoUva.id})}" th:object="${tipoUva}" method="POST">
+                    <div class="fila flex-column-center">
+                        <h2>Editar Tipo de Uva</h2>
+
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="m-t-small">
+                            <label>Nombre</label>
+                            <input class="buscador-card" type="text" th:field="*{nombre}" required />
+                            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Descripción</label>
+                            <input class="buscador-card" type="text" th:field="*{descripcion}" required maxlength="255" />
+                            <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
+                        </div>
+
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-editar-card" value="Actualizar" />
+                            <a class="btn-eliminar m-l" th:href="@{/tipo-uvas}">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

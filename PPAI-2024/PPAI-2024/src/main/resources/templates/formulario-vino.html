@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulario Vino</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+
+<div class="hero">
+
+    <div class="fila flex-center">
+        <h2 th:text="${vino.id == null ? 'Agregar Vino' : 'Editar Vino'}"></h2>
+    </div>
+
+    <div class="fila flex-center">
+        <div class="caja-barra-busqueda-card">
+           
+            <form th:action="@{${vino.id == null ? '/vinos/guardar' : '/vinos/actualizar/' + vino.id}}" 
+                  th:object="${vino}" 
+                  method="POST" 
+                  class="formulario">
+
+                <div class="fila flex-column-center">
+                    <div class="m-t-small">
+                        <label>Nombre</label>
+                        <input class="buscador-card" type="text" th:field="*{nombre}" required />
+                    </div>
+        
+                    <div class="m-t-small">
+                        <label>Añada</label>
+                        <input class="buscador-card" type="number" th:field="*{aniada}" required />
+                    </div>
+        
+                    <div class="m-t-small">
+                        <label>Precio</label>
+                        <input class="buscador-card" type="text" th:field="*{precio}" required />
+                    </div>
+        
+                    <div class="m-t-small">
+                        <label>Nota de Cata</label>
+                        <input class="buscador-card" th:field="*{notaDeCataBodega}" required></input>
+                    </div>
+        
+                    <div class="m-t-small flex-column-center">
+                        <label class="m-b-small" style="align-self: flex-start ;" for="maridaje">Maridaje</label>
+                        <select id="maridaje" name="maridaje" class="buscador-card" th:field="*{maridaje}" required>
+                            <option value="" disabled selected>Seleccione un maridaje</option>
+                            <option th:each="maridaje : ${maridajesDisponibles}" 
+                                    th:value="${maridaje.id}" 
+                                    th:text="${maridaje.nombre}">
+                                    <!-- th:selected="${vino.varietal !=null and vino.varietal.id == varietal.id}"> -->
+                            </option>
+                        </select>
+                    </div>
+                  
+                  <div class="m-t-small flex-column-center">
+                      <label class="m-b-small" style="align-self: flex-start ;" >Varietal</label>
+                      <select id="varietal" name="varietal" class="buscador-card" th:field="*{varietal}" required>
+                          <option value="" disabled selected>Seleccione un varietal</option>
+                          <option th:each="varietal : ${varietalesDisponibles}" 
+                                  th:value="${varietal.id}" 
+                                  th:text="${varietal.descripcion}">
+                          </option>
+                      </select>
+                  </div>
+      
+                  <div class="flex-center m-t">
+                    <input type="submit" class="btn-editar-card" value="Guardar" />
+                    <a class="btn-eliminar m-l" th:href="@{/vinos}">Cancelar</a>
+                </div>
+
+                </div>
+                
+            </form>
+        </div>
+        </div>
+    </div>
+
+</body>
+</html>

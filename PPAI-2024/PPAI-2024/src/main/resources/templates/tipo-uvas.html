@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Tipos de Uva</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+<header>
+    <nav>
+        <a th:href="@{/}">Inicio</a>
+        <a th:href="@{/pantalla-importar-vinos}">Importar</a>
+        <a th:href="@{/usuarios}">Usuarios</a>
+        <a th:href="@{/vinos}">Vino</a>
+        <a th:href="@{/bodegas}">Bodega</a>
+        <a th:href="@{/enofilos}">Enofilo</a>
+        <a th:href="@{/maridajes}">Maridaje</a>
+        <a th:href="@{/tipo-uvas}" class="activo">Tipos de Uva</a>
+        <a th:href="@{/varietal}">Varietal</a>
+        <a th:href="@{/siguiendo}">Siguiendo</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <div class="fila flex-center">
+        <h2>Tipos de Uva</h2>
+    </div>
+
+    <div class="fila flex-center">
+        <a th:href="@{/tipo-uvas/nuevo}" class="btn-agregar">Agregar</a>
+    </div>
+
+    <div class="fila flex-center">
+        <div class="caja-tablas">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="tipoUva : ${tipoUvas}">
+                    <td th:text="${tipoUva.id}">ID</td>
+                    <td th:text="${tipoUva.nombre}">Nombre</td>
+                    <td th:text="${tipoUva.descripcion}">Descripción</td>
+                    <td>
+                        <a th:href="@{/tipo-uvas/editar/{id}(id=${tipoUva.id})}" class="btn-editar">Editar</a>
+                        <a th:href="@{/tipo-uvas/eliminar/{id}(id=${tipoUva.id})}" class="btn-eliminar">Eliminar</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

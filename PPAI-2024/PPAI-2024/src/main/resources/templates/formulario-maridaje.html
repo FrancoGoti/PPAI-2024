@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Maridaje</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+
+<body>
+
+<div class="hero">
+    <div class="fila flex-center">
+        <div class="caja-barra-busqueda-card">
+
+            <!-- Formulario para agregar un nuevo maridaje -->
+            <div th:if="${modo eq 'nuevo'}">
+                <form th:action="@{/maridajes/guardar}" th:object="${maridaje}" method="POST">
+                    <div class="fila flex-column-center">
+                        <h2>Agregar Maridaje</h2>
+
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="m-t-small">
+                            <label>Nombre</label>
+                            <input class="buscador-card" type="text" th:field="*{nombre}" required />
+                            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Descripcion</label>
+                            <input class="buscador-card" type="text" th:field="*{descripcion}" required />
+                            <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
+                        </div>
+
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-editar-card m-t-small" value="Guardar" />
+                            <a class="btn-eliminar m-l" th:href="@{/maridajes}">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Formulario para editar un usuario existente -->
+            <div th:if="${modo eq 'editar'}">
+                <form th:action="@{/maridajes/actualizar/{id}(id=${maridaje.id})}" th:object="${maridaje}" method="POST">
+                    <div class="fila flex-column-center">
+                        <h2>Editar Maridaje</h2>
+
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="m-t-small">
+                            <label>Nombre</label>
+                            <input class="buscador-card" type="text" th:field="*{nombre}" required />
+                            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
+                        </div>
+
+                        <div class="m-t-small">
+                            <label>Descripcion</label>
+                            <input class="buscador-card" type="text" th:field="*{descripcion}" required />
+                            <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span>
+                        </div>
+
+                        <div class="flex-center m-t">
+                            <input type="submit" class="btn-editar-card" value="Actualizar" />
+                            <a class="btn-eliminar m-l" th:href="@{/maridajes}">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
