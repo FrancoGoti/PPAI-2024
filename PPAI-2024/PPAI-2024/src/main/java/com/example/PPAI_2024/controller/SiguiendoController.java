@@ -1,7 +1,6 @@
 package com.example.PPAI_2024.controller;
 
 import com.example.PPAI_2024.entity.Siguiendo;
-import com.example.PPAI_2024.entity.Bodega;
 import com.example.PPAI_2024.service.SiguiendoService;
 import com.example.PPAI_2024.service.BodegaService;
 

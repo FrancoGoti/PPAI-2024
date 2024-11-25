@@ -75,24 +75,25 @@ public class GestorImportacionVinoService {
 
     public List<Usuario> buscarEnofilosSuscriptos(Bodega bodegaSeleccionada){
         List<Enofilo> enofilos = enofiloService.listarTodos();
-        for (int i=0; i < enofilos.size(); i++){
-            if(enofilos.get(i).esSeguidorBodega(bodegaSeleccionada) == true){
-                usuariosEnofilosSuscriptos.add(enofilos.get(i).getUsuario());
+        for (Enofilo enofilo : enofilos) {
+            if (enofilo.esSeguidorBodega(bodegaSeleccionada)) {
+                usuariosEnofilosSuscriptos.add(enofilo.getUsuario());
+                System.out.println(enofilo.getUsuario().getNombre());
             }
         }
 
         InterfazNotificacionApp interfazNotificacionApp = new InterfazNotificacionApp();
         suscribir(interfazNotificacionApp);
-        notificar(bodegaSeleccionada);
+        notificar(bodegaSeleccionada, usuariosEnofilosSuscriptos);
         
         return usuariosEnofilosSuscriptos;
     }
       
-    public void notificar(Bodega bodegaSeleccionada) {
-       interfazNotificacionApp.actualizar(bodegaSeleccionada);
+    public void notificar(Bodega bodegaSeleccionada, List<Usuario> enofilosSuscriptos) {
+       interfazNotificacionApp.actualizar(bodegaSeleccionada, enofilosSuscriptos);
     }
 
-    
+        
     public void suscribir(IObservadorNotificacionNovedades observador) {
         this.interfazNotificacionApp = (InterfazNotificacionApp) observador;
     }

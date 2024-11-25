@@ -42,16 +42,24 @@ public class PantallaImportarVinos {
     // Método para seleccionar bodega
     @GetMapping("/seleccionar-bodega")
     public String tomarSeleccionBodega(@RequestParam("bodegaId") Long bodegaId, Model model) {
-        // Aquí obtienes el objeto Bodega usando el id
+        //Se obtiene el objeto Bodega usando el id
         Bodega bodegaSeleccionada = bodegaService.obtenerPorId(bodegaId); // Este método recupera la Bodega por su ID
         gestor.tomarSelBodega(bodegaSeleccionada);
+        
+        //Se listan los vinos actualizados para mostrar en tabla
         List<Vino> vinosActualizados = gestor.obtenerActualizacionesBodegaSel(bodegaSeleccionada);
         gestor.actualizarVinosBodegaSel(bodegaSeleccionada, vinosActualizados);
         List<Vino> vinos = bodegaService.obtenerVinosPorBodega(bodegaSeleccionada);
         model.addAttribute("vinos", vinos);
 
+        //Se comienza con el proceso de notificacion
         gestor.buscarEnofilosSuscriptos(bodegaSeleccionada);
+        
+        //Alerta para avisar que se ha notificado a los enofilos 
+        System.out.println("Enofilos notificados: true");
+        model.addAttribute("enofilosNotificados", true);
         return "pantalla-importar-vinos"; // Página que muestra los vinos actualizados
+
     }
 
 }

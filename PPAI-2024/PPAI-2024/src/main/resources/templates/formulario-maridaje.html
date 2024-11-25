@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Usuario</title>
+    <title>Maridaje</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/styles.css}" />
 </head>
@@ -13,7 +13,7 @@
     <div class="fila flex-center">
         <div class="caja-barra-busqueda-card">
 
-            <!-- Formulario para agregar un nuevo usuario -->
+            <!-- Formulario para agregar un nuevo maridaje -->
             <div th:if="${modo eq 'nuevo'}">
                 <form th:action="@{/maridajes/guardar}" th:object="${maridaje}" method="POST">
                     <div class="fila flex-column-center">

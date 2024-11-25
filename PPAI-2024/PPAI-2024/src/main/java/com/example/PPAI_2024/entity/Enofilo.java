@@ -83,9 +83,13 @@ public class Enofilo {
         this.favorito = favorito;
     }
 
-    // Métodos adicionales
     public boolean esSeguidorBodega(Bodega bodegaSeleccionada) {
-        return seguido != null && seguido.sosDeBodegaSel(bodegaSeleccionada);
+        if (seguido != null) {
+            if (seguido.sosDeBodegaSel(bodegaSeleccionada)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

@@ -4,6 +4,9 @@
     <title>Usuarios</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/styles.css}" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+
 </head>
 <body>
 <header>
@@ -78,6 +81,27 @@
             </table>
         </div>
     </div>
+
+
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('Documento cargado');
+        
+        // Verificar si el valor está pasando correctamente
+        const enofilosNotificados = [[${enofilosNotificados}]];
+        console.log('Estado de enofilosNotificados:', enofilosNotificados); // Esto debería mostrar true
+
+        // Condicional para mostrar el mensaje si es true
+        if (enofilosNotificados) {
+            Swal.fire({
+                title: '¡Actualización exitosa!',
+                text: 'Se ha notificado a los Enófilos suscriptos sobre la actualización de la bodega.',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            });
+        }
+    });
+</script>
 </body>
 </html>
