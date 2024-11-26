@@ -2,6 +2,9 @@ package com.example.PPAI_2024.service;
 
 import com.example.PPAI_2024.entity.TipoUva;
 import com.example.PPAI_2024.repository.TipoUvaRepository;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -25,6 +28,7 @@ public class TipoUvaService {
         return tipoUvaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("TipoUva no encontrado con ID: " + id));
     }
 
+    @Transactional
     // Crear o actualizar un tipo de uva
     public TipoUva saveTipoUva(TipoUva tipoUva) {
         return tipoUvaRepository.save(tipoUva);

@@ -2,7 +2,11 @@ package com.example.PPAI_2024.service;
 
 import com.example.PPAI_2024.entity.Varietal;
 import com.example.PPAI_2024.repository.VarietalRepository;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 
@@ -25,6 +29,7 @@ public class VarietalService {
         return varietalRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Maridaje no encontrado con ID: " + id));
     }
 
+    @Transactional
     // Crear o actualizar un varietal
     public Varietal saveVarietal(Varietal varietal) {
         return varietalRepository.save(varietal);

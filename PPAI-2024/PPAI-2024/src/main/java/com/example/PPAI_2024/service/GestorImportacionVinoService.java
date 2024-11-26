@@ -22,6 +22,9 @@ public class GestorImportacionVinoService {
     private BodegaRepository bodegaRepository;
 
     @Autowired
+    private BodegaService bodegaService;
+
+    @Autowired
     private EnofiloService enofiloService;
     
     public InterfazNotificacionApp interfazNotificacionApp;
@@ -55,7 +58,7 @@ public class GestorImportacionVinoService {
     }
 
     public void actualizarVinosBodegaSel(Bodega bodegaSeleccionada, List<Vino> vinosActualizados){
-        bodegaSeleccionada.actualizarDatosVinosBodega(bodegaSeleccionada, vinosActualizados);
+        bodegaService.actualizarDatosVinosBodega(bodegaSeleccionada, vinosActualizados);
 
     }
     

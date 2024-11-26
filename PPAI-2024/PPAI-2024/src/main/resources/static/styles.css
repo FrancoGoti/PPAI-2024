@@ -43,7 +43,7 @@ header nav a:hover{
 
 .hero {
     position: relative;
-    height: 100vh;
+    min-height: 100vh;
     width: auto;
     background-image: url("./fondo-pantalla.jpg");
     background-position: center;
